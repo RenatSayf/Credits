@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "946193932213",
+    "project_id": "test-clo-d3b70",
+    "storage_bucket": "test-clo-d3b70.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:946193932213:android:65bd1c968863cdbc4e43fc",
+        "android_client_info": {
+          "package_name": "com.zaimutest777.zaim"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "946193932213-jbu9ilngtru66fl1k17c4oehrjpf5kbd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVSdEF6Y5ybj_GYMYCfRp4sQANGR7Wz9Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "946193932213-jbu9ilngtru66fl1k17c4oehrjpf5kbd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
