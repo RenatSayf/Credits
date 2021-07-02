@@ -1,22 +1,25 @@
 package com.template.ui.start
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.template.MyInitialActivity
 import com.template.R
-import com.template.databinding.PrivatePolicyFragmentBinding
+import com.template.databinding.StartFragmentBinding
 import com.template.utils.RxBus
+import com.template.viewmodels.StartViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 
-class PrivatePolicyFragment : Fragment(R.layout.private_policy_fragment)
+@AndroidEntryPoint
+class StartFragment : Fragment(R.layout.start_fragment)
 {
-    private lateinit var binding: PrivatePolicyFragmentBinding
-    private val policyVM: PrivatePolicyViewModel by viewModels()
+    private lateinit var binding: StartFragmentBinding
+    private lateinit var startVM: StartViewModel
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -25,9 +28,8 @@ class PrivatePolicyFragment : Fragment(R.layout.private_policy_fragment)
         {
             override fun handleOnBackPressed()
             {
-
+                requireActivity().finish()
             }
-
         })
     }
 
@@ -40,16 +42,19 @@ class PrivatePolicyFragment : Fragment(R.layout.private_policy_fragment)
             it.title = getString(R.string.title_private_policy)
             it.show()
         }
-        return inflater.inflate(R.layout.private_policy_fragment, container, false)
+        return inflater.inflate(R.layout.start_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
         super.onViewCreated(view, savedInstanceState)
-        binding = PrivatePolicyFragmentBinding.bind(view)
+        binding = StartFragmentBinding.bind(view)
+        startVM = ViewModelProvider(this)[StartViewModel::class.java]
 
         RxBus.getConfig().value?.let { frc ->
             val privatepolicy = frc.getString("privatepolicy")
+            val checkLink = frc.getString("check_link")
+            startVM.nextPath(checkLink)
             println("***************** $privatepolicy ************************************")
         }
     }

@@ -14,9 +14,12 @@ import com.template.R
 import com.template.databinding.SplashFragmentBinding
 import com.template.models.RConfigViewModel
 import com.template.utils.RxBus
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+
+@AndroidEntryPoint
 class SplashFragment : Fragment(R.layout.splash_fragment)
 {
     private lateinit var binding: SplashFragmentBinding
