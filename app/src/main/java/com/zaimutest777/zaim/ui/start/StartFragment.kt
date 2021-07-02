@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import com.zaimutest777.zaim.MyInitialActivity
 import com.zaimutest777.zaim.R
 import com.zaimutest777.zaim.databinding.StartFragmentBinding
@@ -53,7 +54,6 @@ class StartFragment : Fragment(R.layout.start_fragment)
         startVM = ViewModelProvider(this)[StartViewModel::class.java]
 
         RxBus.getConfig().value?.let { frc ->
-            val privatepolicy = frc.getString("privatepolicy")
             val checkLink = frc.getString("check_link")
             startVM.nextPath(checkLink)
         }
@@ -63,7 +63,7 @@ class StartFragment : Fragment(R.layout.start_fragment)
             {
                 403 ->
                 {
-
+                    (activity as MyInitialActivity).findNavController(R.id.nav_host_fragment).navigate(R.id.action_startFragment_to_confirmFragment)
                 }
                 200 ->
                 {

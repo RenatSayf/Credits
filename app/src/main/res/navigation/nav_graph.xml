@@ -18,5 +18,27 @@
         android:id="@+id/startFragment"
         android:name="com.zaimutest777.zaim.ui.start.StartFragment"
         android:label="private_policy_fragment"
-        tools:layout="@layout/start_fragment" />
+        tools:layout="@layout/start_fragment" >
+
+        <action
+            android:id="@+id/action_startFragment_to_confirmFragment"
+            app:destination="@id/confirmFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/confirmFragment"
+        android:name="com.zaimutest777.zaim.ui.policy.ConfirmFragment"
+        android:label="@string/title_confirm_screen"
+        tools:layout="@layout/confirm_fragment" >
+        <action
+            android:id="@+id/action_confirmFragment_to_privatePolicyFragment"
+            app:destination="@id/privatePolicyFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/privatePolicyFragment"
+        android:name="com.zaimutest777.zaim.ui.policy.PrivatePolicyFragment"
+        android:label="private_policy_fragment"
+        tools:layout="@layout/private_policy_fragment" />
+
 </navigation>
