@@ -1,4 +1,4 @@
-package com.template.models
+package com.zaimutest777.zaim.models
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -8,7 +8,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
-import com.template.R
+import com.zaimutest777.zaim.R
 
 class RConfigViewModel(app: Application) : AndroidViewModel(app)
 {

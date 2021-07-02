@@ -1,4 +1,4 @@
-package com.template.utils
+package com.zaimutest777.zaim.utils
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import io.reactivex.subjects.BehaviorSubject

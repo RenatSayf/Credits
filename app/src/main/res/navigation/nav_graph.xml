@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.template.ui.splash.SplashFragment"
+        android:name="com.zaimutest777.zaim.ui.splash.SplashFragment"
         android:label="splash_fragment"
         tools:layout="@layout/splash_fragment" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/startFragment"
-        android:name="com.template.ui.start.StartFragment"
+        android:name="com.zaimutest777.zaim.ui.start.StartFragment"
         android:label="private_policy_fragment"
         tools:layout="@layout/start_fragment" />
 </navigation>

@@ -1,6 +1,5 @@
-package com.template.ui.splash
+package com.zaimutest777.zaim.ui.splash
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,11 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import com.template.MyInitialActivity
-import com.template.R
-import com.template.databinding.SplashFragmentBinding
-import com.template.models.RConfigViewModel
-import com.template.utils.RxBus
+import com.zaimutest777.zaim.MyInitialActivity
+import com.zaimutest777.zaim.R
+import com.zaimutest777.zaim.databinding.SplashFragmentBinding
+import com.zaimutest777.zaim.models.RConfigViewModel
+import com.zaimutest777.zaim.utils.RxBus
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

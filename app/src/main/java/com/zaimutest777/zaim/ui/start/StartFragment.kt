@@ -1,4 +1,4 @@
-package com.template.ui.start
+package com.zaimutest777.zaim.ui.start
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.template.MyInitialActivity
-import com.template.R
-import com.template.databinding.StartFragmentBinding
-import com.template.utils.RxBus
-import com.template.viewmodels.StartViewModel
+import com.zaimutest777.zaim.MyInitialActivity
+import com.zaimutest777.zaim.R
+import com.zaimutest777.zaim.databinding.StartFragmentBinding
+import com.zaimutest777.zaim.utils.NetworkState
+import com.zaimutest777.zaim.utils.RxBus
+import com.zaimutest777.zaim.viewmodels.StartViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -55,8 +56,40 @@ class StartFragment : Fragment(R.layout.start_fragment)
             val privatepolicy = frc.getString("privatepolicy")
             val checkLink = frc.getString("check_link")
             startVM.nextPath(checkLink)
-            println("***************** $privatepolicy ************************************")
         }
+
+        startVM.checkLink.observe(viewLifecycleOwner, { r ->
+            when(r.code())
+            {
+                403 ->
+                {
+
+                }
+                200 ->
+                {
+
+                }
+            }
+        })
+
+        startVM.netState.observe(viewLifecycleOwner, { state ->
+            when(state)
+            {
+                is NetworkState.Loading ->
+                {
+
+                }
+                is NetworkState.Completed ->
+                {
+
+                }
+                is NetworkState.Error ->
+                {
+
+                }
+            }
+        })
+
     }
 
 

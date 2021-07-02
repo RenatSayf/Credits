@@ -1,6 +1,6 @@
-package com.template.di
+package com.zaimutest777.zaim.di
 
-import com.template.repository.net.ApiService
+import com.zaimutest777.zaim.repository.net.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

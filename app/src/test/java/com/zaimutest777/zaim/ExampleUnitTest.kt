@@ -1,4 +1,4 @@
-package com.template
+package com.zaimutest777.zaim
 
 import org.junit.Test
 
