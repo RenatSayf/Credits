@@ -41,4 +41,9 @@ class StartViewModel @Inject internal constructor(private var netRepository: Net
 
     private var _netState: MutableLiveData<NetworkState> = MutableLiveData(NetworkState.Completed(0))
     val netState: LiveData<NetworkState> = _netState
+
+    fun setNetState(state: NetworkState)
+    {
+        _netState.value = state
+    }
 }

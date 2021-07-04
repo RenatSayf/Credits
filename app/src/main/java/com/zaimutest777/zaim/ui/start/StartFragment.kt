@@ -26,7 +26,7 @@ class StartFragment : Fragment(R.layout.start_fragment)
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true)
+        (activity as MyInitialActivity).onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true)
         {
             override fun handleOnBackPressed()
             {
@@ -41,7 +41,7 @@ class StartFragment : Fragment(R.layout.start_fragment)
     ): View?
     {
         (activity as MyInitialActivity).supportActionBar?.let {
-            it.title = getString(R.string.title_private_policy)
+            it.title = getString(R.string.title_splash_screen)
             it.show()
         }
         return inflater.inflate(R.layout.start_fragment, container, false)
@@ -77,15 +77,15 @@ class StartFragment : Fragment(R.layout.start_fragment)
             {
                 is NetworkState.Loading ->
                 {
-
+                    binding.loadProgBar.visibility = View.VISIBLE
                 }
                 is NetworkState.Completed ->
                 {
-
+                    binding.loadProgBar.visibility = View.INVISIBLE
                 }
                 is NetworkState.Error ->
                 {
-
+                    binding.loadProgBar.visibility = View.INVISIBLE
                 }
             }
         })

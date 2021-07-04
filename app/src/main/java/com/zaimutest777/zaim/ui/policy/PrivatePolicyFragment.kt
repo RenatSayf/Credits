@@ -1,25 +1,51 @@
 package com.zaimutest777.zaim.ui.policy
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import com.zaimutest777.zaim.MyInitialActivity
 import com.zaimutest777.zaim.R
 import com.zaimutest777.zaim.databinding.PrivatePolicyFragmentBinding
+import com.zaimutest777.zaim.utils.NetworkState
+import com.zaimutest777.zaim.utils.RxBus
+import com.zaimutest777.zaim.viewmodels.StartViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class PrivatePolicyFragment : Fragment(R.layout.private_policy_fragment)
 {
     private lateinit var binding: PrivatePolicyFragmentBinding
+    private lateinit var mActivity: MyInitialActivity
+    private lateinit var startVM: StartViewModel
 
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View?
+    override fun onCreate(savedInstanceState: Bundle?)
     {
+        super.onCreate(savedInstanceState)
+        mActivity = activity as MyInitialActivity
+        mActivity.onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true)
+        {
+            override fun handleOnBackPressed()
+            {
+                mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_privatePolicyFragment_to_confirmFragment)
+            }
+        })
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+    {
+        mActivity.supportActionBar?.let {
+            it.title = getString(R.string.title_private_policy)
+            it.setDisplayHomeAsUpEnabled(true)
+            it.setHomeButtonEnabled(true)
+        }
         return inflater.inflate(R.layout.private_policy_fragment, container, false)
     }
 
@@ -27,5 +53,46 @@ class PrivatePolicyFragment : Fragment(R.layout.private_policy_fragment)
     {
         super.onViewCreated(view, savedInstanceState)
         binding = PrivatePolicyFragmentBinding.bind(view)
+        startVM = ViewModelProvider(this)[StartViewModel::class.java]
+
+        RxBus.getConfig().value?.let { frc ->
+            val privatePolicyLink = frc.getString("privatepolicy")
+            if (privatePolicyLink.isNotEmpty())
+            {
+                binding.policyWebView.apply {
+                    webViewClient = PolicyWebViewClient()
+                }.loadUrl(privatePolicyLink)
+                startVM.setNetState(NetworkState.Loading(0))
+            }
+        }
+
+        startVM.netState.observe(viewLifecycleOwner, { state ->
+            when(state)
+            {
+                is NetworkState.Loading ->
+                {
+                    binding.loadProgBar.visibility = View.VISIBLE
+                }
+                is NetworkState.Completed ->
+                {
+                    binding.loadProgBar.visibility = View.INVISIBLE
+                }
+                is NetworkState.Error ->
+                {
+                    binding.loadProgBar.visibility = View.INVISIBLE
+                }
+            }
+        })
+
+
+    }
+
+    inner class PolicyWebViewClient : WebViewClient()
+    {
+        override fun onPageFinished(view: WebView?, url: String?)
+        {
+            super.onPageFinished(view, url)
+            startVM.setNetState(NetworkState.Completed(200))
+        }
     }
 }

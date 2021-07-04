@@ -1,4 +1,4 @@
-package com.zaimutest777.zaim.ui.policy
+package com.zaimutest777.zaim.viewmodels
 
 import androidx.lifecycle.ViewModel
 

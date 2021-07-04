@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Займы онлайн</string>
     <string name="one_signal_app_id">3559894f-bb80-4cbd-b945-546a6f2edc20</string>
-    <string name="title_private_policy">Беспроцентные займы онлайн</string>
+    <string name="title_splash_screen">Беспроцентные займы онлайн</string>
     <string name="title_confirm_screen">Подтвердите ваше согласие</string>
+    <string name="title_private_policy">Политика конфиденциальности</string>
 </resources>

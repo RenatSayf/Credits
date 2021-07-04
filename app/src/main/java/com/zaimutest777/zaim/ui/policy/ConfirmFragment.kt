@@ -1,26 +1,35 @@
 package com.zaimutest777.zaim.ui.policy
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import com.zaimutest777.zaim.MyInitialActivity
 import com.zaimutest777.zaim.R
 import com.zaimutest777.zaim.databinding.ConfirmFragmentBinding
-import com.zaimutest777.zaim.utils.RxBus
+import com.zaimutest777.zaim.viewmodels.ConfirmViewModel
+import com.zaimutest777.zaim.viewmodels.StartViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class ConfirmFragment : Fragment(R.layout.confirm_fragment)
 {
     private lateinit var binding: ConfirmFragmentBinding
-
+    private lateinit var startVM: StartViewModel
+    private lateinit var confirmVM: ConfirmViewModel
+    private lateinit var mActivity: MyInitialActivity
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true)
+        mActivity = activity as MyInitialActivity
+
+        mActivity.onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true)
         {
             override fun handleOnBackPressed()
             {
@@ -34,8 +43,9 @@ class ConfirmFragment : Fragment(R.layout.confirm_fragment)
         savedInstanceState: Bundle?
     ): View?
     {
-        (activity as MyInitialActivity).supportActionBar?.let {
+        mActivity.supportActionBar?.let {
             it.title = getString(R.string.title_confirm_screen)
+            it.setDisplayHomeAsUpEnabled(false)
         }
         return inflater.inflate(R.layout.confirm_fragment, container, false)
     }
@@ -44,10 +54,19 @@ class ConfirmFragment : Fragment(R.layout.confirm_fragment)
     {
         super.onViewCreated(view, savedInstanceState)
         binding = ConfirmFragmentBinding.bind(view)
+        startVM = ViewModelProvider(this)[StartViewModel::class.java]
+        confirmVM = ViewModelProvider(this)[ConfirmViewModel::class.java]
 
-        RxBus.getConfig().value?.let { frc ->
-            val privatepolicy = frc.getString("privatepolicy")
-            println("*********************** $privatepolicy **********************************")
+        confirmVM.agreed.observe(viewLifecycleOwner, {
+            binding.confirmView.isEnabled = it
+        })
+
+        binding.confirmCheckBox.setOnCheckedChangeListener { _, p1 ->
+            confirmVM.acceptTheAgreement(p1)
+        }
+
+        binding.linkView.setOnClickListener {
+            mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_confirmFragment_to_privatePolicyFragment)
         }
     }
 

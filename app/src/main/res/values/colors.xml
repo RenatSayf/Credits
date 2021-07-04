@@ -8,5 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="actionBarColor">#BF2259</color>
-    <color name="colorGold">#FFC400</color>
+    <color name="colorGold">#FF9100</color>
+    <color name="colorDarkGold">#D67B03</color>
+    <color name="colorLightGold">#FDD29A</color>
 </resources>

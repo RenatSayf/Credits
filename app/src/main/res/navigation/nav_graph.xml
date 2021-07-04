@@ -39,6 +39,15 @@
         android:id="@+id/privatePolicyFragment"
         android:name="com.zaimutest777.zaim.ui.policy.PrivatePolicyFragment"
         android:label="private_policy_fragment"
-        tools:layout="@layout/private_policy_fragment" />
+        tools:layout="@layout/private_policy_fragment" >
+
+        <action
+            android:id="@+id/action_privatePolicyFragment_to_confirmFragment"
+            app:destination="@id/confirmFragment"
+            app:enterAnim="@animator/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
 
 </navigation>
