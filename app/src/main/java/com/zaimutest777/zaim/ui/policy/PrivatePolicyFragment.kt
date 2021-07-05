@@ -13,6 +13,7 @@ import androidx.navigation.findNavController
 import com.zaimutest777.zaim.MyInitialActivity
 import com.zaimutest777.zaim.R
 import com.zaimutest777.zaim.databinding.PrivatePolicyFragmentBinding
+import com.zaimutest777.zaim.utils.Consts
 import com.zaimutest777.zaim.utils.NetworkState
 import com.zaimutest777.zaim.utils.RxBus
 import com.zaimutest777.zaim.viewmodels.StartViewModel
@@ -34,7 +35,11 @@ class PrivatePolicyFragment : Fragment(R.layout.private_policy_fragment)
         {
             override fun handleOnBackPressed()
             {
-                mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_privatePolicyFragment_to_confirmFragment)
+                try
+                {
+                    mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_privatePolicyFragment_to_confirmFragment)
+                } catch (e: Exception)
+                {}
             }
         })
     }
@@ -56,7 +61,7 @@ class PrivatePolicyFragment : Fragment(R.layout.private_policy_fragment)
         startVM = ViewModelProvider(this)[StartViewModel::class.java]
 
         RxBus.getConfig().value?.let { frc ->
-            val privatePolicyLink = frc.getString("privatepolicy")
+            val privatePolicyLink = frc.getString(Consts.PRIVATE_POLICY)
             if (privatePolicyLink.isNotEmpty())
             {
                 binding.policyWebView.apply {

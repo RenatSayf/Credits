@@ -33,6 +33,9 @@
         <action
             android:id="@+id/action_confirmFragment_to_privatePolicyFragment"
             app:destination="@id/privatePolicyFragment" />
+        <action
+            android:id="@+id/action_confirmFragment_to_sendTelFragment"
+            app:destination="@id/sendTelFragment" />
     </fragment>
 
     <fragment
@@ -48,6 +51,15 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/sendTelFragment"
+        android:name="com.zaimutest777.zaim.ui.policy.SendTelFragment"
+        android:label="send_tel_fragment"
+        tools:layout="@layout/send_tel_fragment" >
+        <action
+            android:id="@+id/action_sendTelFragment_to_confirmFragment"
+            app:destination="@id/confirmFragment" />
     </fragment>
 
 </navigation>

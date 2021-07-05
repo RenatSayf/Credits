@@ -4,4 +4,5 @@
     <string name="title_splash_screen">Беспроцентные займы онлайн</string>
     <string name="title_confirm_screen">Подтвердите ваше согласие</string>
     <string name="title_private_policy">Политика конфиденциальности</string>
+    <string name="title_send_tel">Подтверждение согласия</string>
 </resources>

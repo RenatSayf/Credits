@@ -10,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -29,7 +30,7 @@ class StartViewModel @Inject internal constructor(private var netRepository: Net
                 {
                     val showcase = netRepository.getShowcase(link)
                     _checkLink.value = showcase
-                    _netState.value = NetworkState.Loading(showcase.code())
+                    _netState.value = NetworkState.Completed(showcase.code())
                 } catch (e: Exception)
                 {
                     e.printStackTrace()
@@ -45,5 +46,28 @@ class StartViewModel @Inject internal constructor(private var netRepository: Net
     fun setNetState(state: NetworkState)
     {
         _netState.value = state
+    }
+
+    private var _confirm = MutableLiveData<Response<JSONObject>>()
+    val confirm: LiveData<Response<JSONObject>> = _confirm
+
+    fun getConfirm(path: String, packageId: String, userId: String, getz: String)
+    {
+        _netState.value = NetworkState.Loading(0)
+        viewModelScope.launch {
+            withContext(Dispatchers.Main){
+                try
+                {
+                    val response = netRepository.getConfirm(path, packageId, userId, getz)
+                    _confirm.value = response
+                    _netState.value = NetworkState.Completed(response.code())
+                }
+                catch (e: Exception)
+                {
+                    e.printStackTrace()
+                    _netState.value = e.message?.let { NetworkState.Error(it) }
+                }
+            }
+        }
     }
 }
