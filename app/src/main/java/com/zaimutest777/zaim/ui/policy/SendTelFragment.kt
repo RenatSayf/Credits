@@ -86,7 +86,7 @@ class SendTelFragment : Fragment(R.layout.send_tel_fragment)
 
                 val phone1 = Phone(Data(phone))
                 val json = Gson().toJson(phone1, Phone::class.java)
-                netVM.sendPhoneNumber(baseUrl, json)
+                netVM.sendPhoneNumber(baseUrl, phone1)
             }
         }
 

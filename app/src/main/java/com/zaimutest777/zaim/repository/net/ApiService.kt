@@ -1,6 +1,7 @@
 package com.zaimutest777.zaim.repository.net
 
 import com.google.gson.JsonObject
+import com.zaimutest777.zaim.models.Phone
 import org.json.JSONObject
 import retrofit2.Response
 import retrofit2.http.*
@@ -28,7 +29,7 @@ interface ApiService
         @Path(value = "url", encoded = true)
         path: String,
         @Body
-        data: String ) : Response<Unit>
+        data: Phone ) : Response<Unit>
 
 
 }

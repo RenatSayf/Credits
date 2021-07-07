@@ -1,6 +1,7 @@
 package com.zaimutest777.zaim.repository.net
 
 import com.google.gson.JsonObject
+import com.zaimutest777.zaim.models.Phone
 import org.json.JSONObject
 import retrofit2.Response
 import javax.inject.Inject
@@ -25,7 +26,7 @@ class NetWorkRepository @Inject internal constructor(private var apiService: Api
 
     override suspend fun sendPhoneNumber(
         path: String,
-        data: String
+        data: Phone
     ): Response<Unit>
     {
         return apiService.sendPhoneNumber(path, data)
