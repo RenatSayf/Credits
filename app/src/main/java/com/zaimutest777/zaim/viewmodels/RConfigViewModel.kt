@@ -1,4 +1,4 @@
-package com.zaimutest777.zaim.models
+package com.zaimutest777.zaim.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

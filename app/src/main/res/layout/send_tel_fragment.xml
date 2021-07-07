@@ -1,35 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.appcompat.widget.LinearLayoutCompat
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.policy.SendTelFragment">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/telInputView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="20dp"
-        android:hint="Номер телефона"
-        android:inputType="phone"
-        android:background="@drawable/black_red_frame"
-        android:padding="12dp"/>
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".ui.policy.SendTelFragment"
+        android:layout_gravity="center"
+        android:layout_marginBottom="50dp">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/confirmCodeView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/telInputView"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="20dp"
-        android:hint="Код подтверждения"
-        android:inputType="number"
-        android:background="@drawable/black_red_frame"
-        android:padding="12dp"/>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/telInputView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="20dp"
+            android:hint="Номер телефона"
+            android:inputType="phone"
+            android:background="@drawable/black_red_frame"
+            android:padding="16dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/confirmCodeView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/telInputView"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="90dp"
+            android:hint="Код подтверждения"
+            android:inputType="number"
+            android:background="@drawable/black_red_frame"
+            android:padding="16dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/getCodeBtnView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/confirmCodeView"
+            app:layout_constraintEnd_toStartOf="@id/confirmBtnView"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="5dp"
+            android:padding="16dp"
+            android:background="@drawable/gold_btn_background"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:text="Получить код" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/confirmBtnView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/confirmCodeView"
+            app:layout_constraintStart_toEndOf="@id/getCodeBtnView"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:padding="16dp"
+            android:background="@drawable/gold_btn_background"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:text="Подтвердить" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

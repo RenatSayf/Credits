@@ -11,7 +11,7 @@ import androidx.navigation.findNavController
 import com.zaimutest777.zaim.MyInitialActivity
 import com.zaimutest777.zaim.R
 import com.zaimutest777.zaim.databinding.SplashFragmentBinding
-import com.zaimutest777.zaim.models.RConfigViewModel
+import com.zaimutest777.zaim.viewmodels.RConfigViewModel
 import com.zaimutest777.zaim.utils.RxBus
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay

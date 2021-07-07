@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.JsonObject
 import com.zaimutest777.zaim.repository.net.NetWorkRepository
 import com.zaimutest777.zaim.utils.NetworkState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -66,6 +67,28 @@ class StartViewModel @Inject internal constructor(private var netRepository: Net
                 {
                     e.printStackTrace()
                     _netState.value = e.message?.let { NetworkState.Error(it) }
+                }
+            }
+        }
+    }
+
+    private var _phoneIsSent = MutableLiveData<NetworkState>()
+    val phoneIsSent: LiveData<NetworkState> = _phoneIsSent
+
+    fun sendPhoneNumber(path: String, data: String)
+    {
+        _phoneIsSent.value = NetworkState.Loading(0)
+        viewModelScope.launch {
+            withContext(Dispatchers.Main){
+                try
+                {
+                    val response = netRepository.sendPhoneNumber(path, data)
+                    _phoneIsSent.value = NetworkState.Completed(response.code())
+                }
+                catch (e: Exception)
+                {
+                    e.printStackTrace()
+                    _phoneIsSent.value = e.message?.let { NetworkState.Error(it) }
                 }
             }
         }
