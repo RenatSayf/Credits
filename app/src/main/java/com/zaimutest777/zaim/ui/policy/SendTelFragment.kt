@@ -18,12 +18,14 @@ import com.zaimutest777.zaim.R
 import com.zaimutest777.zaim.databinding.SendTelFragmentBinding
 import com.zaimutest777.zaim.models.Data
 import com.zaimutest777.zaim.models.Phone
+import com.zaimutest777.zaim.ui.notify.AppNotification
 import com.zaimutest777.zaim.utils.Consts
 import com.zaimutest777.zaim.utils.NetworkState
 import com.zaimutest777.zaim.utils.RxBus
 import com.zaimutest777.zaim.viewmodels.StartViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONObject
+import kotlin.random.Random
 
 
 @AndroidEntryPoint
@@ -96,6 +98,13 @@ class SendTelFragment : Fragment(R.layout.send_tel_fragment)
                 is NetworkState.Completed ->
                 {
                     println("********************** response code = ${state.code} *********************************")
+                    if (state.code == 201)
+                    {
+                        val code = Random.nextInt(1000, 9999)
+                        val notification =
+                            AppNotification(mActivity).create("Код подтверждения", code.toString()) as AppNotification
+                        notification.show()
+                    }
                 }
                 is NetworkState.Error ->
                 {
