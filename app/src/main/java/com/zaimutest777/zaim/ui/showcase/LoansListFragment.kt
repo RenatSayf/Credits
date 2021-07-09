@@ -7,11 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.zaimutest777.zaim.utils.NetworkState
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.zaimutest777.zaim.MyInitialActivity
 import com.zaimutest777.zaim.R
 import com.zaimutest777.zaim.databinding.LoansListFragmentBinding
+import com.zaimutest777.zaim.ui.adapters.ProductAdapter
 import com.zaimutest777.zaim.viewmodels.DbJsonViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -54,6 +57,36 @@ class LoansListFragment : Fragment(R.layout.loans_list_fragment)
         binding = LoansListFragmentBinding.bind(view)
 
         dbJsonVM = ViewModelProvider(this)[DbJsonViewModel::class.java]
+
+        dbJsonVM.loans.observe(viewLifecycleOwner, {
+            it?.let { list ->
+                binding.loansRecyclerView.apply {
+                    val loansAdapter = ProductAdapter(list)
+                    loansAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+                    setHasFixedSize(true)
+                    layoutManager = LinearLayoutManager(mActivity)
+                    adapter = loansAdapter
+                }
+            }
+        })
+
+        dbJsonVM.netState.observe(viewLifecycleOwner, { state ->
+            when(state)
+            {
+                is NetworkState.Completed ->
+                {
+                    binding.loadProgBar.visibility = View.INVISIBLE
+                }
+                is NetworkState.Error ->
+                {
+                    binding.loadProgBar.visibility = View.INVISIBLE
+                }
+                is NetworkState.Loading ->
+                {
+                    binding.loadProgBar.visibility = View.VISIBLE
+                }
+            }
+        })
 
 
     }
