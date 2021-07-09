@@ -23,6 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class LoansListFragment : Fragment(R.layout.loans_list_fragment)
 {
     private lateinit var binding: LoansListFragmentBinding
+
     private lateinit var mActivity: MyInitialActivity
     private lateinit var dbJsonVM: DbJsonViewModel
 

@@ -14,6 +14,8 @@ import com.squareup.picasso.Picasso
 import com.zaimutest777.zaim.R
 import com.zaimutest777.zaim.models.credits.Product
 
+
+
 class ProductAdapter constructor(private val productsList: List<Product>) : RecyclerView.Adapter<ProductAdapter.ViewHolder>()
 {
     inner class ViewHolder(item: View) : RecyclerView.ViewHolder(item)
@@ -47,7 +49,6 @@ class ProductAdapter constructor(private val productsList: List<Product>) : Recy
         val starsLayout = itemView.findViewById<LinearLayoutCompat>(R.id.starsLayout)
         starsLayout.removeAllViews()
         val score = productsList[position].score.toInt()
-        println("******************* score = $score ****************************")
         for (i in 1..score)
         {
             val starView = LayoutInflater.from(context).inflate(R.layout.star_layout, LinearLayoutCompat(context), false)

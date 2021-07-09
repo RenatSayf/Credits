@@ -1,17 +1,17 @@
 package com.zaimutest777.zaim.models.credits
 
 data class Rasrochka(
-    val betText: String,
-    val cash: String,
-    val description: String,
-    val imageUrl: String,
-    val mastercard: String,
-    val mir: String,
-    val qiwi: String,
-    val score: String,
-    val summText: String,
-    val title: String,
-    val url: String,
-    val visa: String,
-    val yandex: String
-)
+    override val betText: String,
+    override val cash: String,
+    override val description: String,
+    override val imageUrl: String,
+    override val mastercard: String,
+    override val mir: String,
+    override val qiwi: String,
+    override val score: String,
+    override val summText: String,
+    override val title: String,
+    override val url: String,
+    override val visa: String,
+    override val yandex: String
+) : Product()

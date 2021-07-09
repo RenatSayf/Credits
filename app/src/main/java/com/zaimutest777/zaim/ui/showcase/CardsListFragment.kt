@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CardsListFragment : Fragment(R.layout.cards_list_fragment)
 {
-    private lateinit var binding: CardsListFragmentBinding
+    //private lateinit var binding: CardsListFragmentBinding
     private lateinit var mActivity: MyInitialActivity
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -39,7 +39,7 @@ class CardsListFragment : Fragment(R.layout.cards_list_fragment)
             visibility = View.VISIBLE
         }
         mActivity.supportActionBar?.let {
-            it.title = getString(R.string.title_credits)
+            it.title = getString(R.string.title_cards)
             it.show()
         }
         return inflater.inflate(R.layout.cards_list_fragment, container, false)
@@ -48,7 +48,7 @@ class CardsListFragment : Fragment(R.layout.cards_list_fragment)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
         super.onViewCreated(view, savedInstanceState)
-        binding = CardsListFragmentBinding.bind(view)
+        //binding = CardsListFragmentBinding.bind(view)
 
 
     }

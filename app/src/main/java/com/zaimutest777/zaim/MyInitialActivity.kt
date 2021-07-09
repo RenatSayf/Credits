@@ -25,11 +25,11 @@ class MyInitialActivity : AppCompatActivity()
                 {
                     R.id.menu_loans ->
                     {
-
+                        findNavController(R.id.nav_host_fragment).navigate(R.id.loansListFragment)
                     }
                     R.id.menu_cards ->
                     {
-
+                        findNavController(R.id.nav_host_fragment).navigate(R.id.cardsListFragment)
                     }
                     R.id.menu_credits ->
                     {

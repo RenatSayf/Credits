@@ -1,6 +1,6 @@
 package com.zaimutest777.zaim.models.credits
 
-class Credit(
+data class Credit(
     override val betText: String,
     override val cash: String,
     override val description: String,
