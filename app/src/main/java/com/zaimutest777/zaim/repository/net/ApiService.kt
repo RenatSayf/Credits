@@ -1,7 +1,7 @@
 package com.zaimutest777.zaim.repository.net
 
-import com.google.gson.JsonObject
 import com.zaimutest777.zaim.models.Phone
+import com.zaimutest777.zaim.models.credits.CreditsList
 import org.json.JSONObject
 import retrofit2.Response
 import retrofit2.http.*
@@ -30,6 +30,11 @@ interface ApiService
         path: String,
         @Body
         data: Phone ) : Response<Unit>
+
+    @GET("{url}")
+    suspend fun getCreditsList(
+        @Path(value = "url", encoded = true) path: String
+    ) : Response<CreditsList>
 
 
 }

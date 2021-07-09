@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_startFragment_to_confirmFragment"
             app:destination="@id/confirmFragment" />
+        <action
+            android:id="@+id/action_startFragment_to_loansListFragment"
+            app:destination="@id/loansListFragment" />
     </fragment>
 
     <fragment
@@ -60,6 +63,23 @@
         <action
             android:id="@+id/action_sendTelFragment_to_confirmFragment"
             app:destination="@id/confirmFragment" />
+        <action
+            android:id="@+id/action_sendTelFragment_to_loansListFragment"
+            app:destination="@id/loansListFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/loansListFragment"
+        android:name="com.zaimutest777.zaim.ui.showcase.LoansListFragment"
+        android:label="loans_list_fragment"
+        tools:layout="@layout/loans_list_fragment" >
+        <action
+            android:id="@+id/action_loansListFragment_to_cardsListFragment"
+            app:destination="@id/cardsListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cardsListFragment"
+        android:name="com.zaimutest777.zaim.ui.showcase.CardsListFragment"
+        android:label="cards_list_fragment"
+        tools:layout="@layout/cards_list_fragment" />
 
 </navigation>

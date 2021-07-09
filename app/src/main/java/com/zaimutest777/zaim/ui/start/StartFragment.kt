@@ -1,5 +1,6 @@
 package com.zaimutest777.zaim.ui.start
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.navigation.findNavController
 import com.zaimutest777.zaim.MyInitialActivity
 import com.zaimutest777.zaim.R
 import com.zaimutest777.zaim.databinding.StartFragmentBinding
+import com.zaimutest777.zaim.utils.Consts
 import com.zaimutest777.zaim.utils.NetworkState
 import com.zaimutest777.zaim.utils.RxBus
 import com.zaimutest777.zaim.viewmodels.StartViewModel
@@ -22,11 +24,13 @@ class StartFragment : Fragment(R.layout.start_fragment)
 {
     private lateinit var binding: StartFragmentBinding
     private lateinit var startVM: StartViewModel
+    private lateinit var mActivity: MyInitialActivity
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        (activity as MyInitialActivity).onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true)
+        mActivity = activity as MyInitialActivity
+        mActivity.onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true)
         {
             override fun handleOnBackPressed()
             {
@@ -63,7 +67,12 @@ class StartFragment : Fragment(R.layout.start_fragment)
             {
                 403 ->
                 {
-                    (activity as MyInitialActivity).findNavController(R.id.nav_host_fragment).navigate(R.id.action_startFragment_to_confirmFragment)
+                    val userConfirm = mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).getBoolean(Consts.USER_CONFIRM, false)
+                    when(userConfirm)
+                    {
+                        true -> mActivity.findNavController(R.id.nav_host_fragment). navigate(R.id.action_startFragment_to_loansListFragment)
+                        else -> mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_startFragment_to_confirmFragment)
+                    }
                 }
                 200 ->
                 {

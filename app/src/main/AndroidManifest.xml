@@ -3,10 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.zaimutest777.zaim">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
-        android:name="com.zaimutest777.zaim.di.App"
+        android:name=".di.App"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
@@ -14,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyInitialActivity"
         tools:ignore="AllowBackup">
-        <activity android:name="com.zaimutest777.zaim.MyInitialActivity">
+
+        <activity android:name=".MyInitialActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

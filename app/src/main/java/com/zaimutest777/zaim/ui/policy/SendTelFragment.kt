@@ -1,30 +1,30 @@
 package com.zaimutest777.zaim.ui.policy
 
+import android.app.NotificationManager
+import android.content.Context
 import android.os.Bundle
 import android.telephony.PhoneNumberFormattingTextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
 import com.zaimutest777.zaim.MyInitialActivity
 import com.zaimutest777.zaim.R
 import com.zaimutest777.zaim.databinding.SendTelFragmentBinding
 import com.zaimutest777.zaim.models.Data
 import com.zaimutest777.zaim.models.Phone
 import com.zaimutest777.zaim.ui.notify.AppNotification
+import com.zaimutest777.zaim.ui.notify.AppNotification.NOTIFICATION_ID
 import com.zaimutest777.zaim.utils.Consts
 import com.zaimutest777.zaim.utils.NetworkState
 import com.zaimutest777.zaim.utils.RxBus
 import com.zaimutest777.zaim.viewmodels.StartViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import org.json.JSONObject
 import kotlin.random.Random
 
 
@@ -97,25 +97,38 @@ class SendTelFragment : Fragment(R.layout.send_tel_fragment)
             {
                 is NetworkState.Completed ->
                 {
-                    println("********************** response code = ${state.code} *********************************")
+                    //println("********************** response code = ${state.code} *********************************")
                     if (state.code == 201)
                     {
                         val code = Random.nextInt(1000, 9999)
-                        val notification =
-                            AppNotification(mActivity).create("Код подтверждения", code.toString()) as AppNotification
-                        notification.show()
+                        val notification = AppNotification.create(mActivity, "Код подтверждения", code.toString())
+                        val notificationManager = mActivity.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                        notificationManager.notify(NOTIFICATION_ID, notification)
+                        binding.progressView.visibility = View.INVISIBLE
+                        binding.confirmCodeView.setText(code.toString())
+                        mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).edit().putBoolean(Consts.USER_CONFIRM, true).apply()
                     }
                 }
                 is NetworkState.Error ->
                 {
-
+                    binding.progressView.visibility = View.INVISIBLE
                 }
                 is NetworkState.Loading ->
                 {
-
+                    binding.progressView.visibility = View.VISIBLE
                 }
             }
         })
+
+        binding.confirmBtnView.setOnClickListener {
+            val userConfirm = mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).getBoolean(Consts.USER_CONFIRM, false)
+            if (userConfirm)
+            {
+                mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_sendTelFragment_to_loansListFragment)
+            }
+        }
+
+
 
     }
 

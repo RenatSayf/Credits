@@ -7,21 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.zaimutest777.zaim.MyInitialActivity
 import com.zaimutest777.zaim.R
-import com.zaimutest777.zaim.databinding.LoansListFragmentBinding
-import com.zaimutest777.zaim.viewmodels.DbJsonViewModel
+import com.zaimutest777.zaim.databinding.CardsListFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class LoansListFragment : Fragment(R.layout.loans_list_fragment)
+class CardsListFragment : Fragment(R.layout.cards_list_fragment)
 {
-    private lateinit var binding: LoansListFragmentBinding
+    private lateinit var binding: CardsListFragmentBinding
     private lateinit var mActivity: MyInitialActivity
-    private lateinit var dbJsonVM: DbJsonViewModel
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -42,21 +39,20 @@ class LoansListFragment : Fragment(R.layout.loans_list_fragment)
             visibility = View.VISIBLE
         }
         mActivity.supportActionBar?.let {
-            it.title = getString(R.string.title_loans)
+            it.title = getString(R.string.title_credits)
             it.show()
         }
-        return inflater.inflate(R.layout.loans_list_fragment, container, false)
+        return inflater.inflate(R.layout.cards_list_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
         super.onViewCreated(view, savedInstanceState)
-        binding = LoansListFragmentBinding.bind(view)
-
-        dbJsonVM = ViewModelProvider(this)[DbJsonViewModel::class.java]
+        binding = CardsListFragmentBinding.bind(view)
 
 
     }
+
 
 
 }

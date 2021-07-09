@@ -5,4 +5,7 @@
     <string name="title_confirm_screen">Подтвердите ваше согласие</string>
     <string name="title_private_policy">Политика конфиденциальности</string>
     <string name="title_send_tel">Подтверждение согласия</string>
+    <string name="title_loans">Займы</string>
+    <string name="title_cards">Карты</string>
+    <string name="title_credits">Кредиты</string>
 </resources>
