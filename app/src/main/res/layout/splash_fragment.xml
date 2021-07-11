@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:padding="40dp"
-        android:src="@drawable/logo"
+        android:src="@drawable/money_bag"
         />
 
 </FrameLayout>
