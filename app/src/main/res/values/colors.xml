@@ -12,5 +12,6 @@
     <color name="colorDarkGold">#D67B03</color>
     <color name="colorLightGold">#FDD29A</color>
     <color name="gray">#D1CDCD</color>
+    <color name="colorLightGray">#FAF7F7</color>
     <color name="transparentColor">#00FFFFFF</color>
 </resources>

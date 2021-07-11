@@ -8,4 +8,11 @@
     <string name="title_loans">Займы</string>
     <string name="title_cards">Карты</string>
     <string name="title_credits">Кредиты</string>
+    <string name="text_credit">Кредитные</string>
+    <string name="text_debit">Дебетовые</string>
+    <string name="text_rassrochka">Рассрочки</string>
+    <string name="text_summ">Сумма:</string>
+    <string name="text_bet">Ставка:</string>
+    <string name="text_more_details">Подробнее</string>
+    <string name="text_arrange">Овормить</string>
 </resources>
