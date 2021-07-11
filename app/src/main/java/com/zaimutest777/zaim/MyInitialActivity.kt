@@ -33,7 +33,7 @@ class MyInitialActivity : AppCompatActivity()
                     }
                     R.id.menu_credits ->
                     {
-
+                        findNavController(R.id.nav_host_fragment).navigate(R.id.creditsListFragment)
                     }
                 }
                 return true

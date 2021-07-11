@@ -1,29 +1,28 @@
 package com.zaimutest777.zaim.ui.showcase
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.zaimutest777.zaim.utils.NetworkState
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.zaimutest777.zaim.MyInitialActivity
 import com.zaimutest777.zaim.R
 import com.zaimutest777.zaim.databinding.LoansListFragmentBinding
 import com.zaimutest777.zaim.ui.adapters.ProductAdapter
+import com.zaimutest777.zaim.utils.NetworkState
 import com.zaimutest777.zaim.viewmodels.DbJsonViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class LoansListFragment : Fragment(R.layout.loans_list_fragment)
+class CreditsListFragment : Fragment(R.layout.loans_list_fragment)
 {
     private lateinit var binding: LoansListFragmentBinding
-
     private lateinit var mActivity: MyInitialActivity
     private lateinit var dbJsonVM: DbJsonViewModel
 
@@ -35,18 +34,21 @@ class LoansListFragment : Fragment(R.layout.loans_list_fragment)
         {
             override fun handleOnBackPressed()
             {
-                mActivity.finish()
+
             }
         })
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View?
     {
         mActivity.findViewById<BottomNavigationView>(R.id.bottomNavView).apply {
             visibility = View.VISIBLE
         }
         mActivity.supportActionBar?.let {
-            it.title = getString(R.string.title_loans)
+            it.title = getString(R.string.title_credits)
             it.show()
         }
         return inflater.inflate(R.layout.loans_list_fragment, container, false)
@@ -59,7 +61,7 @@ class LoansListFragment : Fragment(R.layout.loans_list_fragment)
 
         dbJsonVM = ViewModelProvider(this)[DbJsonViewModel::class.java]
 
-        dbJsonVM.loans.observe(viewLifecycleOwner, {
+        dbJsonVM.credits.observe(viewLifecycleOwner, {
             it?.let { list ->
                 binding.productRecyclerView.apply {
                     val productAdapter = ProductAdapter(list)
@@ -88,9 +90,6 @@ class LoansListFragment : Fragment(R.layout.loans_list_fragment)
                 }
             }
         })
-
-
     }
-
 
 }
