@@ -5,6 +5,8 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.yandex.metrica.YandexMetrica
+import com.yandex.metrica.YandexMetricaConfig
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -15,6 +17,10 @@ class MyInitialActivity : AppCompatActivity()
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.initial_activity)
+
+        val metricaConfig = YandexMetricaConfig.newConfigBuilder("1bfbd449-bf14-4417-af97-0f6e980cbbf9").build()
+        YandexMetrica.activate(this, metricaConfig)
+        YandexMetrica.enableActivityAutoTracking(application)
 
         val bottomNavView = findViewById<BottomNavigationView>(R.id.bottomNavView)
         bottomNavView?.setOnNavigationItemSelectedListener(object : BottomNavigationView.OnNavigationItemSelectedListener

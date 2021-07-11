@@ -105,4 +105,7 @@ dependencies {
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
+    // AppMetrica SDK.
+    implementation 'com.yandex.android:mobmetricalib:3.21.0'
+
 }
