@@ -7,16 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.cardview.widget.CardView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import com.zaimutest777.zaim.MyInitialActivity
 import com.zaimutest777.zaim.R
 import com.zaimutest777.zaim.models.credits.Product
+import com.zaimutest777.zaim.ui.details.DetailsFragment
+import com.zaimutest777.zaim.utils.RxBus
 
 
-
-class ProductAdapter constructor(private val productsList: List<Product>) : RecyclerView.Adapter<ProductAdapter.ViewHolder>()
+class ProductAdapter constructor(private val activity: MyInitialActivity, private val productsList: List<Product>) : RecyclerView.Adapter<ProductAdapter.ViewHolder>()
 {
     inner class ViewHolder(item: View) : RecyclerView.ViewHolder(item)
 
@@ -25,7 +29,7 @@ class ProductAdapter constructor(private val productsList: List<Product>) : Recy
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
     {
         context = parent.context
-        val cardView = LayoutInflater.from(parent.context).inflate(R.layout.loan_layout, parent, false) as CardView
+        val cardView = LayoutInflater.from(parent.context).inflate(R.layout.product_layout, parent, false) as CardView
         return ViewHolder(cardView)
     }
 
@@ -83,6 +87,16 @@ class ProductAdapter constructor(private val productsList: List<Product>) : Recy
         if (productsList[position].yandex.isEmpty())
         {
             itemView.findViewById<ImageView>(R.id.yandexIconView)?.visibility = View.GONE
+        }
+
+        itemView.findViewById<AppCompatButton>(R.id.detailsBtn).setOnClickListener {
+            RxBus.passProduct(productsList[position])
+            activity.supportFragmentManager.beginTransaction().add(R.id.detailsFrameLayout, DetailsFragment()).addToBackStack(null).commit()
+            //activity.findNavController(R.id.nav_host_fragment).navigate(R.id.detailsFragment)
+        }
+
+        itemView.findViewById<AppCompatButton>(R.id.getBtn).setOnClickListener {
+
         }
 
     }

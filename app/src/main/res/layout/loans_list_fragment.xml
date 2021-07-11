@@ -26,4 +26,12 @@
         style="@style/AppLoadProgressBar"
         />
 
+    <FrameLayout
+        android:id="@+id/detailsFrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

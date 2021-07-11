@@ -62,7 +62,7 @@ class LoansListFragment : Fragment(R.layout.loans_list_fragment)
         dbJsonVM.loans.observe(viewLifecycleOwner, {
             it?.let { list ->
                 binding.productRecyclerView.apply {
-                    val productAdapter = ProductAdapter(list)
+                    val productAdapter = ProductAdapter(mActivity, list)
                     productAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
                     setHasFixedSize(true)
                     layoutManager = LinearLayoutManager(mActivity)

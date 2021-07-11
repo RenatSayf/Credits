@@ -86,5 +86,14 @@
         android:name="com.zaimutest777.zaim.ui.showcase.CreditsListFragment"
         android:label="credits_list_fragment"
         tools:layout="@layout/credits_list_fragment" />
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.zaimutest777.zaim.ui.details.DetailsFragment"
+        android:label="details_fragment"
+        tools:layout="@layout/details_fragment" >
+        <action
+            android:id="@+id/action_detailsFragment_to_loansListFragment"
+            app:destination="@id/loansListFragment" />
+    </fragment>
 
 </navigation>

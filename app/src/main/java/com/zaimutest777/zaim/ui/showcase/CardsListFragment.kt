@@ -73,7 +73,7 @@ class CardsListFragment : Fragment()
                     {
                         val list = dbJsonVM.creditCards.value
                         list?.let {
-                            val productAdapter = ProductAdapter(it).apply {
+                            val productAdapter = ProductAdapter(mActivity, it).apply {
                                 stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
                             }
                             cardsRecyclerView.adapter = productAdapter
@@ -83,7 +83,7 @@ class CardsListFragment : Fragment()
                     {
                         val list = dbJsonVM.debitCards.value
                         list?.let {
-                            val productAdapter = ProductAdapter(it).apply {
+                            val productAdapter = ProductAdapter(mActivity, it).apply {
                                 stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
                             }
                             cardsRecyclerView.adapter = productAdapter
@@ -93,7 +93,7 @@ class CardsListFragment : Fragment()
                     {
                         val list = dbJsonVM.rasrochka.value
                         list?.let {
-                            val productAdapter = ProductAdapter(it).apply {
+                            val productAdapter = ProductAdapter(mActivity, it).apply {
                                 stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
                             }
                             cardsRecyclerView.adapter = productAdapter
@@ -109,7 +109,7 @@ class CardsListFragment : Fragment()
 
         dbJsonVM.creditCards.observe(viewLifecycleOwner, { list ->
             list?.let {
-                val productAdapter = ProductAdapter(it).apply {
+                val productAdapter = ProductAdapter(mActivity, it).apply {
                     stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
                 }
                 cardsRecyclerView.adapter = productAdapter
