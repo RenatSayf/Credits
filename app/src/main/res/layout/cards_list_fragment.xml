@@ -5,10 +5,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cardsLayout"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray"
+        android:background="@color/white"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".ui.showcase.CardsListFragment">
 
@@ -69,21 +70,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             style="@style/AppLoadProgressBar" />
 
-<!--        <FrameLayout-->
-<!--            android:id="@+id/detailsFrameLayout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent">-->
-
-<!--        </FrameLayout>-->
-
-<!--        <FrameLayout-->
-<!--            android:id="@+id/webFrameLayout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent">-->
-
-<!--        </FrameLayout>-->
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

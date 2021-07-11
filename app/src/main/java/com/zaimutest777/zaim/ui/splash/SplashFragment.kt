@@ -1,5 +1,6 @@
 package com.zaimutest777.zaim.ui.splash
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.navigation.findNavController
 import com.zaimutest777.zaim.MyInitialActivity
 import com.zaimutest777.zaim.R
 import com.zaimutest777.zaim.databinding.SplashFragmentBinding
+import com.zaimutest777.zaim.utils.Consts
 import com.zaimutest777.zaim.viewmodels.RConfigViewModel
 import com.zaimutest777.zaim.utils.RxBus
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,21 +23,19 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SplashFragment : Fragment(R.layout.splash_fragment)
 {
+    private lateinit var mActivity: MyInitialActivity
     private lateinit var binding: SplashFragmentBinding
     private val rconfigVM: RConfigViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-
+        mActivity = activity as MyInitialActivity
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View?
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
-        (requireActivity() as MyInitialActivity).supportActionBar!!.hide()
+        mActivity.supportActionBar!!.hide()
         return inflater.inflate(R.layout.splash_fragment, container, false)
     }
 
@@ -44,12 +44,10 @@ class SplashFragment : Fragment(R.layout.splash_fragment)
         super.onViewCreated(view, savedInstanceState)
         binding = SplashFragmentBinding.bind(view)
 
+        //mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).edit().putBoolean(Consts.USER_CONFIRM, false).apply()
+
         rconfigVM.remoteConfig.observe(viewLifecycleOwner, { frc ->
             frc?.let {
-                val checkLink = it.getString("check_link")
-                val sheetLink = it.getString("sheet_link")
-                val cardsLink = it.getString("cards_link")
-
                 RxBus.sendConfig(it)
                 viewLifecycleOwner.lifecycleScope.launch {
                     delay(500)

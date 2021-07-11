@@ -78,6 +78,7 @@ class CreditsListFragment : Fragment(R.layout.loans_list_fragment)
             {
                 is NetworkState.Completed ->
                 {
+                    binding.loansLayout.setBackgroundColor(resources.getColor(R.color.gray))
                     binding.loadProgBar.visibility = View.INVISIBLE
                 }
                 is NetworkState.Error ->

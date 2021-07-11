@@ -73,11 +73,6 @@ class ConfirmFragment : Fragment(R.layout.confirm_fragment)
             mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_confirmFragment_to_privatePolicyFragment)
         }
 
-        RxBus.getConfig().value?.let { frc ->
-            val checkLink = frc.getString(Consts.CHECK_LINK)
-
-        }
-
         binding.confirmView.setOnClickListener {
             val checkLink = RxBus.getConfig().value?.getString(Consts.CHECK_LINK)
             val userId = confirmVM.androidId

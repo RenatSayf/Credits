@@ -52,6 +52,10 @@ class StartViewModel @Inject internal constructor(private var netRepository: Net
     private var _confirm = MutableLiveData<Response<JSONObject>>()
     val confirm: LiveData<Response<JSONObject>> = _confirm
 
+    var confirmCode = MutableLiveData("")
+
+    var telNumberIsValid = MutableLiveData(false)
+
     fun getConfirm(path: String, packageId: String, userId: String, getz: String)
     {
         _netState.value = NetworkState.Loading(0)

@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.google.android.material.textfield.TextInputEditText
-import com.google.gson.Gson
 import com.zaimutest777.zaim.MyInitialActivity
 import com.zaimutest777.zaim.R
 import com.zaimutest777.zaim.databinding.SendTelFragmentBinding
@@ -73,6 +72,8 @@ class SendTelFragment : Fragment(R.layout.send_tel_fragment)
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)
             {
                 super.onTextChanged(s, start, before, count)
+                val pureStr = s.toString().replace("+", "").replace("-", "").replace(" ", "")
+                netVM.telNumberIsValid.value = pureStr.length == 11
                 println("******************* count = $count ***********************")
             }
         })
@@ -85,9 +86,7 @@ class SendTelFragment : Fragment(R.layout.send_tel_fragment)
             val baseUrl = RxBus.getConfig().value?.getString(Consts.SHEET_LINCK)
             val phone = binding.telInputView.text.toString().replace("-", "").replace(" ", "")
             baseUrl?.let {
-
                 val phone1 = Phone(Data(phone))
-                val json = Gson().toJson(phone1, Phone::class.java)
                 netVM.sendPhoneNumber(baseUrl, phone1)
             }
         }
@@ -106,6 +105,7 @@ class SendTelFragment : Fragment(R.layout.send_tel_fragment)
                         notificationManager.notify(NOTIFICATION_ID, notification)
                         binding.progressView.visibility = View.INVISIBLE
                         binding.confirmCodeView.setText(code.toString())
+                        netVM.confirmCode.value = code.toString()
                         mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).edit().putBoolean(Consts.USER_CONFIRM, true).apply()
                     }
                 }
@@ -127,6 +127,15 @@ class SendTelFragment : Fragment(R.layout.send_tel_fragment)
                 mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_sendTelFragment_to_loansListFragment)
             }
         }
+
+        netVM.confirmCode.observe(viewLifecycleOwner, { code ->
+            binding.confirmBtnView.isEnabled = code.isNotEmpty()
+        })
+
+        netVM.telNumberIsValid.observe(viewLifecycleOwner, {
+            binding.getCodeBtnView.isEnabled = it
+            binding.confirmCodeView.isEnabled = it
+        })
 
 
 

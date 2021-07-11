@@ -35,7 +35,7 @@ class LoansListFragment : Fragment(R.layout.loans_list_fragment)
         {
             override fun handleOnBackPressed()
             {
-                //mActivity.finish()
+
             }
         })
     }
@@ -76,6 +76,7 @@ class LoansListFragment : Fragment(R.layout.loans_list_fragment)
             {
                 is NetworkState.Completed ->
                 {
+                    binding.loansLayout.setBackgroundColor(resources.getColor(R.color.gray))
                     binding.loadProgBar.visibility = View.INVISIBLE
                 }
                 is NetworkState.Error ->

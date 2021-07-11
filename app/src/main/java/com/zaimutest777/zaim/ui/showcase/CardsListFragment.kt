@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.activity.OnBackPressedCallback
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -122,6 +123,7 @@ class CardsListFragment : Fragment()
             {
                 is NetworkState.Completed ->
                 {
+                    view.findViewById<ConstraintLayout>(R.id.cardsLayout)?.setBackgroundColor(resources.getColor(R.color.gray))
                     loadProgBar.visibility = View.INVISIBLE
                 }
                 is NetworkState.Error ->

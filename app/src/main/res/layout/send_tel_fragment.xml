@@ -22,7 +22,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="20dp"
-            android:hint="Номер телефона"
+            android:hint="@string/text_tel_number"
             android:inputType="phone"
             android:background="@drawable/black_red_frame"
             android:padding="16dp" />
@@ -43,10 +43,11 @@
                 android:id="@+id/confirmCodeView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Код подтверждения"
+                android:hint="@string/text_confirm_code"
                 android:inputType="number"
                 android:background="@drawable/black_red_frame"
-                android:padding="16dp" />
+                android:padding="16dp"
+                android:enabled="false"/>
 
             <ProgressBar
                 android:id="@+id/progressView"
@@ -71,7 +72,8 @@
             android:padding="16dp"
             android:background="@drawable/gold_btn_background"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:text="Получить код" />
+            android:text="@string/text_get_code"
+            android:enabled="false"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/confirmBtnView"
@@ -86,7 +88,8 @@
             android:padding="16dp"
             android:background="@drawable/gold_btn_background"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:text="Подтвердить" />
+            android:text="@string/text_confirm"
+            android:enabled="false"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

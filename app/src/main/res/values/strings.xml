@@ -15,4 +15,8 @@
     <string name="text_bet">Ставка:</string>
     <string name="text_more_details">Подробнее</string>
     <string name="text_arrange">Оформить</string>
+    <string name="text_tel_number">Номер телефона</string>
+    <string name="text_confirm_code">Код подтверждения</string>
+    <string name="text_get_code">Получить код</string>
+    <string name="text_confirm">Подтвердить</string>
 </resources>
