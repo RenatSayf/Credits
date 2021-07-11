@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.squareup.picasso.Picasso
 import com.zaimutest777.zaim.MyInitialActivity
@@ -31,10 +32,7 @@ class DetailsFragment : Fragment(R.layout.details_fragment)
         {
             override fun handleOnBackPressed()
             {
-                mActivity.findViewById<BottomNavigationView>(R.id.bottomNavView).apply {
-                    visibility = View.VISIBLE
-                }
-                mActivity.supportFragmentManager.beginTransaction().remove(this@DetailsFragment).commit()
+                mActivity.findNavController(R.id.nav_host_fragment).navigateUp()
             }
         })
     }
@@ -93,9 +91,15 @@ class DetailsFragment : Fragment(R.layout.details_fragment)
 
             val description = HtmlCompat.fromHtml(p.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
             binding.descriptionView.text = description
+
+            binding.getBtn.setOnClickListener {
+                mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_detailsFragment_to_registrationFragment)
+            }
         }
 
     }
+
+
 
 
 }

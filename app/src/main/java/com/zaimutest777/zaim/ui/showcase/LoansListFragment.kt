@@ -35,7 +35,7 @@ class LoansListFragment : Fragment(R.layout.loans_list_fragment)
         {
             override fun handleOnBackPressed()
             {
-                mActivity.finish()
+                //mActivity.finish()
             }
         })
     }
@@ -91,6 +91,8 @@ class LoansListFragment : Fragment(R.layout.loans_list_fragment)
 
 
     }
+
+
 
 
 }

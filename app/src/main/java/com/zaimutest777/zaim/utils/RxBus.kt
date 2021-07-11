@@ -20,4 +20,6 @@ object RxBus
         productSubject.onNext(product)
     }
     fun getProduct() = productSubject
+
+
 }

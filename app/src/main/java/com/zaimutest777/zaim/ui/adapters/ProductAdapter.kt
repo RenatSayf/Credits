@@ -16,7 +16,6 @@ import com.squareup.picasso.Picasso
 import com.zaimutest777.zaim.MyInitialActivity
 import com.zaimutest777.zaim.R
 import com.zaimutest777.zaim.models.credits.Product
-import com.zaimutest777.zaim.ui.details.DetailsFragment
 import com.zaimutest777.zaim.utils.RxBus
 
 
@@ -91,12 +90,12 @@ class ProductAdapter constructor(private val activity: MyInitialActivity, privat
 
         itemView.findViewById<AppCompatButton>(R.id.detailsBtn).setOnClickListener {
             RxBus.passProduct(productsList[position])
-            activity.supportFragmentManager.beginTransaction().add(R.id.detailsFrameLayout, DetailsFragment()).addToBackStack(null).commit()
-            //activity.findNavController(R.id.nav_host_fragment).navigate(R.id.detailsFragment)
+            activity.findNavController(R.id.nav_host_fragment).navigate(R.id.detailsFragment)
         }
 
         itemView.findViewById<AppCompatButton>(R.id.getBtn).setOnClickListener {
-
+            RxBus.passProduct(productsList[position])
+            activity.findNavController(R.id.nav_host_fragment).navigate(R.id.registrationFragment)
         }
 
     }

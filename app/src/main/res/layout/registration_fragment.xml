@@ -5,15 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/gray"
-    tools:context=".ui.showcase.LoansListFragment">
+    tools:context=".ui.registration.RegistrationFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/productRecyclerView"
+    <WebView
+        android:id="@+id/registrationWebView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        android:layout_height="match_parent"
+        android:background="@color/white"/>
 
     <ProgressBar
         android:id="@+id/loadProgBar"
@@ -25,21 +23,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         style="@style/AppLoadProgressBar"
         />
-
-<!--    <FrameLayout-->
-<!--        android:id="@+id/detailsFrameLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
-
-<!--    </FrameLayout>-->
-
-<!--    <FrameLayout-->
-<!--        android:id="@+id/webFrameLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
-
-<!--    </FrameLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
