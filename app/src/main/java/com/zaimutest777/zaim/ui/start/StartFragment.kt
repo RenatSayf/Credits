@@ -76,7 +76,7 @@ class StartFragment : Fragment(R.layout.start_fragment)
                 }
                 200 ->
                 {
-
+                    mActivity.findNavController(R.id.nav_host_fragment). navigate(R.id.action_startFragment_to_loansListFragment)
                 }
             }
         })

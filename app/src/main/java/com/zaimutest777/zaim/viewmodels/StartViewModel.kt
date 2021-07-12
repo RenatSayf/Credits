@@ -1,9 +1,9 @@
 package com.zaimutest777.zaim.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import androidx.lifecycle.*
+import com.onesignal.OneSignal
+import com.zaimutest777.zaim.R
 import com.zaimutest777.zaim.models.Phone
 import com.zaimutest777.zaim.repository.net.NetWorkRepository
 import com.zaimutest777.zaim.utils.NetworkState
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class StartViewModel @Inject internal constructor(private var netRepository: NetWorkRepository): ViewModel()
+class StartViewModel @Inject internal constructor(private var netRepository: NetWorkRepository, private val app: Application): AndroidViewModel(app)
 {
     private var _checkLink: MutableLiveData<Response<String>> = MutableLiveData()
     val checkLink: LiveData<Response<String>> = _checkLink
@@ -96,5 +96,21 @@ class StartViewModel @Inject internal constructor(private var netRepository: Net
                 }
             }
         }
+
+        OneSignal.setSMSNumber(data.data.number, object : OneSignal.OSSMSUpdateHandler
+        {
+            override fun onSuccess(result: JSONObject?)
+            {
+                result
+                return
+            }
+
+            override fun onFailure(error: OneSignal.OSSMSUpdateError?)
+            {
+                error
+                return
+            }
+
+        })
     }
 }

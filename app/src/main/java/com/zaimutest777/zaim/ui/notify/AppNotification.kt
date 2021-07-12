@@ -3,11 +3,14 @@ package com.zaimutest777.zaim.ui.notify
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.DEFAULT_SOUND
 import androidx.core.app.NotificationCompat.DEFAULT_VIBRATE
+import com.zaimutest777.zaim.MyInitialActivity
 import com.zaimutest777.zaim.R
 
 object AppNotification
@@ -25,6 +28,11 @@ object AppNotification
             setDefaults(DEFAULT_SOUND or DEFAULT_VIBRATE)
             setContentTitle(title)
             setContentText(contentText)
+
+            val intent = Intent(context, MyInitialActivity::class.java)
+            val activity = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            setContentIntent(activity)
+
         }.build()
 
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

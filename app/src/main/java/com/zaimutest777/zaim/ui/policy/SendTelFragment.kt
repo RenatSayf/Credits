@@ -72,8 +72,8 @@ class SendTelFragment : Fragment(R.layout.send_tel_fragment)
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int)
             {
                 super.onTextChanged(s, start, before, count)
-                val pureStr = s.toString().replace("+", "").replace("-", "").replace(" ", "")
-                netVM.telNumberIsValid.value = pureStr.length == 11
+                val pureStr = s.toString().replace("-", "").replace(" ", "")
+                netVM.telNumberIsValid.value = pureStr.length == 12
                 println("******************* count = $count ***********************")
             }
         })
