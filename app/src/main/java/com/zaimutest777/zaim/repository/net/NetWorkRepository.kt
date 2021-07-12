@@ -1,6 +1,5 @@
 package com.zaimutest777.zaim.repository.net
 
-import com.google.gson.JsonObject
 import com.zaimutest777.zaim.models.Phone
 import com.zaimutest777.zaim.models.credits.CreditsList
 import org.json.JSONObject
@@ -15,6 +14,7 @@ class NetWorkRepository @Inject internal constructor(private var apiService: Api
     }
 
     override suspend fun getConfirm(
+        userAgent: String,
         path: String,
         packageId: String,
         userId: String,
@@ -22,7 +22,7 @@ class NetWorkRepository @Inject internal constructor(private var apiService: Api
         getr: String
     ): Response<JSONObject>
     {
-        return apiService.getConfirm(path, packageId, userId, getz)
+        return apiService.getConfirm(userAgent, path, packageId, userId, getz, getr)
     }
 
     override suspend fun sendPhoneNumber(

@@ -44,7 +44,7 @@ class SplashFragment : Fragment(R.layout.splash_fragment)
         super.onViewCreated(view, savedInstanceState)
         binding = SplashFragmentBinding.bind(view)
 
-        //mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).edit().putBoolean(Consts.USER_CONFIRM, false).apply()
+        mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).edit().putBoolean(Consts.USER_CONFIRM, false).apply()
 
         rconfigVM.remoteConfig.observe(viewLifecycleOwner, { frc ->
             frc?.let {

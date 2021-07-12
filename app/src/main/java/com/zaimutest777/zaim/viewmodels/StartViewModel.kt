@@ -56,14 +56,14 @@ class StartViewModel @Inject internal constructor(private var netRepository: Net
 
     var telNumberIsValid = MutableLiveData(false)
 
-    fun getConfirm(path: String, packageId: String, userId: String, getz: String)
+    fun getConfirm(userAgent: String, path: String, packageId: String, userId: String, getz: String, getr: String)
     {
         _netState.value = NetworkState.Loading(0)
         viewModelScope.launch {
             withContext(Dispatchers.Main){
                 try
                 {
-                    val response = netRepository.getConfirm(path, packageId, userId, getz)
+                    val response = netRepository.getConfirm(userAgent, path, packageId, userId, getz, getr)
                     _confirm.value = response
                     _netState.value = NetworkState.Completed(response.code())
                 }
