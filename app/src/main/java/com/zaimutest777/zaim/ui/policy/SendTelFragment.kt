@@ -112,6 +112,9 @@ class SendTelFragment : Fragment(R.layout.send_tel_fragment)
                 is NetworkState.Error ->
                 {
                     binding.progressView.visibility = View.INVISIBLE
+                    mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).edit().putBoolean(Consts.USER_CONFIRM, false).apply()
+                    netVM.confirmCode.value = ""
+                    netVM.telNumberIsValid.value = false
                 }
                 is NetworkState.Loading ->
                 {
@@ -133,8 +136,11 @@ class SendTelFragment : Fragment(R.layout.send_tel_fragment)
         })
 
         netVM.telNumberIsValid.observe(viewLifecycleOwner, {
-            binding.getCodeBtnView.isEnabled = it
-            binding.confirmCodeView.isEnabled = it
+            if (mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).getBoolean(Consts.USER_CONFIRM, true))
+            {
+                binding.getCodeBtnView.isEnabled = it
+                binding.confirmCodeView.isEnabled = it
+            }
         })
 
 

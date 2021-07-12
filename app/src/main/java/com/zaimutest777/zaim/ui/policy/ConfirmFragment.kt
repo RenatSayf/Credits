@@ -79,31 +79,11 @@ class ConfirmFragment : Fragment(R.layout.confirm_fragment)
             val userId = confirmVM.androidId
             val packageId = mActivity.packageName
             val getz = TimeZone.getDefault().id
-
-            val cpu = android.os.Build.CPU_ABI
-            val device = android.os.Build.DEVICE
-            val hardware = android.os.Build.HARDWARE
-            val model = android.os.Build.MODEL
-            android.os.Build.BOARD
-            android.os.Build.BOOTLOADER
-            android.os.Build.BRAND
-            android.os.Build.FINGERPRINT
-            android.os.Build.HOST
-            android.os.Build.ID
-            android.os.Build.MANUFACTURER
-            android.os.Build.PRODUCT
-            android.os.Build.SERIAL
-            android.os.Build.USER
-            android.os.Build.HOST
-
-
-
-
-            val agent = "User-Agent: getr=utm_source=google-play&utm_medium=organic"
-            val userAgent = URLEncoder.encode(agent, "UTF-8")
+            val userAgent = System.getProperty("http.agent")
             val getr = URLEncoder.encode("utm_source=google-play&utm_medium=organic", "UTF-8")
-            checkLink?.let { link ->
-                startVM.getConfirm(userAgent, link, packageId, userId, getz, getr)
+            if (checkLink != null && userAgent != null)
+            {
+                startVM.getConfirm(userAgent, checkLink, packageId, userId, getz, getr)
             }
         }
 

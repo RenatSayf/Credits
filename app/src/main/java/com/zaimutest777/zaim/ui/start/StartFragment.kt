@@ -15,8 +15,11 @@ import com.zaimutest777.zaim.databinding.StartFragmentBinding
 import com.zaimutest777.zaim.utils.Consts
 import com.zaimutest777.zaim.utils.NetworkState
 import com.zaimutest777.zaim.utils.RxBus
+import com.zaimutest777.zaim.viewmodels.ConfirmViewModel
 import com.zaimutest777.zaim.viewmodels.StartViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.net.URLEncoder
+import java.util.*
 
 
 @AndroidEntryPoint
@@ -24,6 +27,7 @@ class StartFragment : Fragment(R.layout.start_fragment)
 {
     private lateinit var binding: StartFragmentBinding
     private lateinit var startVM: StartViewModel
+    private lateinit var confirmVM: ConfirmViewModel
     private lateinit var mActivity: MyInitialActivity
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -56,30 +60,53 @@ class StartFragment : Fragment(R.layout.start_fragment)
         super.onViewCreated(view, savedInstanceState)
         binding = StartFragmentBinding.bind(view)
         startVM = ViewModelProvider(this)[StartViewModel::class.java]
+        confirmVM = ViewModelProvider(this)[ConfirmViewModel::class.java]
 
         RxBus.getConfig().value?.let { frc ->
             val checkLink = frc.getString("check_link")
-            startVM.nextPath(checkLink)
+            val userId = confirmVM.androidId
+            val packageId = mActivity.packageName
+            val getz = TimeZone.getDefault().id
+            val getr = URLEncoder.encode("utm_source=google-play&utm_medium=organic", "UTF-8")
+            val userAgent = System.getProperty("http.agent")
+            userAgent?.let { agent ->
+                //startVM.nextPath(agent, checkLink)
+                startVM.getConfirm(userAgent, checkLink, packageId, userId, getz, getr)
+            }
         }
 
-        startVM.checkLink.observe(viewLifecycleOwner, { r ->
+        startVM.confirm.observe(viewLifecycleOwner, { r ->
             when(r.code())
             {
-                403 ->
-                {
-                    val userConfirm = mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).getBoolean(Consts.USER_CONFIRM, false)
-                    when(userConfirm)
-                    {
-                        true -> mActivity.findNavController(R.id.nav_host_fragment). navigate(R.id.action_startFragment_to_loansListFragment)
-                        else -> mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_startFragment_to_confirmFragment)
-                    }
-                }
                 200 ->
                 {
-                    mActivity.findNavController(R.id.nav_host_fragment). navigate(R.id.action_startFragment_to_loansListFragment)
+                    mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_startFragment_to_loansListFragment)
+                }
+                403 ->
+                {
+                    mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_startFragment_to_confirmFragment)
                 }
             }
         })
+
+//        startVM.checkLink.observe(viewLifecycleOwner, { r ->
+//            when(r.code())
+//            {
+//                403 ->
+//                {
+//                    val userConfirm = mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).getBoolean(Consts.USER_CONFIRM, false)
+//                    when(userConfirm)
+//                    {
+//                        true -> mActivity.findNavController(R.id.nav_host_fragment). navigate(R.id.action_startFragment_to_loansListFragment)
+//                        else -> mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_startFragment_to_confirmFragment)
+//                    }
+//                }
+//                200 ->
+//                {
+//                    mActivity.findNavController(R.id.nav_host_fragment). navigate(R.id.action_startFragment_to_loansListFragment)
+//                }
+//            }
+//        })
 
         startVM.netState.observe(viewLifecycleOwner, { state ->
             when(state)

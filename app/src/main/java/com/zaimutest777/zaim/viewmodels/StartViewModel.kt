@@ -1,9 +1,11 @@
 package com.zaimutest777.zaim.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.onesignal.OneSignal
-import com.zaimutest777.zaim.R
 import com.zaimutest777.zaim.models.Phone
 import com.zaimutest777.zaim.repository.net.NetWorkRepository
 import com.zaimutest777.zaim.utils.NetworkState
@@ -17,19 +19,19 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class StartViewModel @Inject internal constructor(private var netRepository: NetWorkRepository, private val app: Application): AndroidViewModel(app)
+class StartViewModel @Inject internal constructor(private var netRepository: NetWorkRepository, app: Application): AndroidViewModel(app)
 {
     private var _checkLink: MutableLiveData<Response<String>> = MutableLiveData()
     val checkLink: LiveData<Response<String>> = _checkLink
 
-    fun nextPath(link: String)
+    fun nextPath(userAgemt: String, link: String)
     {
         _netState.value = NetworkState.Loading(0)
         viewModelScope.launch {
             withContext(Dispatchers.Main){
                 try
                 {
-                    val showcase = netRepository.getShowcase(link)
+                    val showcase = netRepository.getShowcase(userAgemt, link)
                     _checkLink.value = showcase
                     _netState.value = NetworkState.Completed(showcase.code())
                 } catch (e: Exception)
@@ -82,33 +84,32 @@ class StartViewModel @Inject internal constructor(private var netRepository: Net
     fun sendPhoneNumber(path: String, data: Phone)
     {
         _phoneIsSent.value = NetworkState.Loading(0)
-        viewModelScope.launch {
-            withContext(Dispatchers.Main){
-                try
-                {
-                    val response = netRepository.sendPhoneNumber(path, data)
-                    _phoneIsSent.value = NetworkState.Completed(response.code())
-                }
-                catch (e: Exception)
-                {
-                    e.printStackTrace()
-                    _phoneIsSent.value = e.message?.let { NetworkState.Error(it) }
-                }
-            }
-        }
-
         OneSignal.setSMSNumber(data.data.number, object : OneSignal.OSSMSUpdateHandler
         {
             override fun onSuccess(result: JSONObject?)
             {
-                result
-                return
+                viewModelScope.launch {
+                    withContext(Dispatchers.Main){
+                        try
+                        {
+                            val response = netRepository.sendPhoneNumber(path, data)
+                            _phoneIsSent.value = NetworkState.Completed(response.code())
+                        }
+                        catch (e: Exception)
+                        {
+                            e.printStackTrace()
+                            _phoneIsSent.value = e.message?.let { NetworkState.Error(it) }
+                        }
+                    }
+                }
             }
 
             override fun onFailure(error: OneSignal.OSSMSUpdateError?)
             {
-                error
-                return
+                if (error != null)
+                {
+                    _phoneIsSent.value = NetworkState.Error(error.message)
+                }
             }
 
         })

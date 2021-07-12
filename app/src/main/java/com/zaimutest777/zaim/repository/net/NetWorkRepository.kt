@@ -8,9 +8,9 @@ import javax.inject.Inject
 
 class NetWorkRepository @Inject internal constructor(private var apiService: ApiService) : ApiService
 {
-    override suspend fun getShowcase(path: String) : Response<String>
+    override suspend fun getShowcase(userAgent: String, path: String) : Response<String>
     {
-        return apiService.getShowcase(path)
+        return apiService.getShowcase(userAgent, path)
     }
 
     override suspend fun getConfirm(
