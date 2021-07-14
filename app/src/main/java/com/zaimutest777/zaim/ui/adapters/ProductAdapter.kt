@@ -12,7 +12,7 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.cardview.widget.CardView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import com.zaimutest777.zaim.MyInitialActivity
 import com.zaimutest777.zaim.R
 import com.zaimutest777.zaim.models.credits.Product
@@ -39,7 +39,7 @@ class ProductAdapter constructor(private val activity: MyInitialActivity, privat
             text = productsList[position].title
         }
         val logoImageView = itemView.findViewById<ImageView>(R.id.logoImgView)
-        Picasso.with(context).load(Uri.parse(productsList[position].imageUrl)).into(logoImageView)
+        Glide.with(itemView).load(Uri.parse(productsList[position].imageUrl)).into(logoImageView)
 
         itemView.findViewById<TextView>(R.id.summTextView).apply {
             text = productsList[position].summText

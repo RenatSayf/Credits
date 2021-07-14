@@ -70,8 +70,7 @@ class StartFragment : Fragment(R.layout.start_fragment)
             val getr = URLEncoder.encode("utm_source=google-play&utm_medium=organic", "UTF-8")
             val userAgent = System.getProperty("http.agent")
             userAgent?.let { agent ->
-                //startVM.nextPath(agent, checkLink)
-                startVM.getConfirm(userAgent, checkLink, packageId, userId, getz, getr)
+                startVM.getConfirm(agent, checkLink, packageId, userId, getz, getr)
             }
         }
 
@@ -80,7 +79,14 @@ class StartFragment : Fragment(R.layout.start_fragment)
             {
                 200 ->
                 {
-                    mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_startFragment_to_loansListFragment)
+                    val userConfirm = mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).getBoolean(Consts.USER_CONFIRM, false)
+                    if (userConfirm)
+                    {
+                        mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_startFragment_to_loansListFragment)
+                    } else
+                    {
+                        mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_startFragment_to_confirmFragment)
+                    }
                 }
                 403 ->
                 {
@@ -88,25 +94,6 @@ class StartFragment : Fragment(R.layout.start_fragment)
                 }
             }
         })
-
-//        startVM.checkLink.observe(viewLifecycleOwner, { r ->
-//            when(r.code())
-//            {
-//                403 ->
-//                {
-//                    val userConfirm = mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).getBoolean(Consts.USER_CONFIRM, false)
-//                    when(userConfirm)
-//                    {
-//                        true -> mActivity.findNavController(R.id.nav_host_fragment). navigate(R.id.action_startFragment_to_loansListFragment)
-//                        else -> mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_startFragment_to_confirmFragment)
-//                    }
-//                }
-//                200 ->
-//                {
-//                    mActivity.findNavController(R.id.nav_host_fragment). navigate(R.id.action_startFragment_to_loansListFragment)
-//                }
-//            }
-//        })
 
         startVM.netState.observe(viewLifecycleOwner, { state ->
             when(state)
