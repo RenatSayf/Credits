@@ -62,34 +62,45 @@ class StartViewModel @Inject internal constructor(private var netRepository: Net
     fun sendPhoneNumber(path: String, data: Phone)
     {
         _phoneIsSent.value = NetworkState.Loading(0)
-        OneSignal.setSMSNumber(data.data.number, object : OneSignal.OSSMSUpdateHandler
-        {
-            override fun onSuccess(result: JSONObject?)
-            {
-                viewModelScope.launch {
-                    withContext(Dispatchers.Main){
-                        try
+        viewModelScope.launch {
+            withContext(Dispatchers.Main){
+                try
+                {
+                    val response = netRepository.sendPhoneNumber(path, data)
+                    var code = response.code()
+                    //code = 403
+                    if (code == 201)
+                    {
+                        OneSignal.setSMSNumber(data.data.number, object : OneSignal.OSSMSUpdateHandler
                         {
-                            val response = netRepository.sendPhoneNumber(path, data)
-                            _phoneIsSent.value = NetworkState.Completed(response.code())
-                        }
-                        catch (e: Exception)
-                        {
-                            e.printStackTrace()
-                            _phoneIsSent.value = e.message?.let { NetworkState.Error(it) }
-                        }
+                            override fun onSuccess(result: JSONObject?)
+                            {
+                                _phoneIsSent.postValue(NetworkState.Completed(response.code()))
+                            }
+
+                            override fun onFailure(error: OneSignal.OSSMSUpdateError?)
+                            {
+                                if (error != null)
+                                {
+                                    _phoneIsSent.postValue(NetworkState.Error(error.message))
+                                }
+                            }
+                        })
+                    }
+                    else if (code == 403 || code == 1020)
+                    {
+                        _phoneIsSent.postValue(NetworkState.Completed(403))
                     }
                 }
-            }
-
-            override fun onFailure(error: OneSignal.OSSMSUpdateError?)
-            {
-                if (error != null)
+                catch (e: Exception)
                 {
-                    _phoneIsSent.value = NetworkState.Error(error.message)
+                    e.printStackTrace()
+                    _phoneIsSent.value = e.message?.let { NetworkState.Error(it) }
                 }
             }
+        }
 
-        })
+
+
     }
 }

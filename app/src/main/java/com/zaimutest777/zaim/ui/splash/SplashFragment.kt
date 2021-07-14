@@ -42,14 +42,16 @@ class SplashFragment : Fragment(R.layout.splash_fragment)
         super.onViewCreated(view, savedInstanceState)
         binding = SplashFragmentBinding.bind(view)
 
-        //mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).edit().putBoolean(Consts.USER_CONFIRM, false).apply()
-
         rconfigVM.remoteConfig.observe(viewLifecycleOwner, { frc ->
             frc?.let {
                 RxBus.sendConfig(it)
-                viewLifecycleOwner.lifecycleScope.launch {
-                    delay(500)
-                    (activity as MyInitialActivity).findNavController(R.id.nav_host_fragment).navigate(R.id.action_splashFragment_to_privatePolicyFragment)
+                val checkLink = frc.getString("check_link")
+                if (checkLink.isNotEmpty())
+                {
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        delay(500)
+                        (activity as MyInitialActivity).findNavController(R.id.nav_host_fragment).navigate(R.id.action_splashFragment_to_privatePolicyFragment)
+                    }
                 }
             }
         })

@@ -1,5 +1,6 @@
 package com.zaimutest777.zaim.ui.policy
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -62,8 +63,23 @@ class ConfirmFragment : Fragment(R.layout.confirm_fragment)
         startVM = ViewModelProvider(this)[StartViewModel::class.java]
         confirmVM = ViewModelProvider(this)[ConfirmViewModel::class.java]
 
+        mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).getInt(Consts.SERVER_CODE, 0).apply {
+            if (this == 403)
+            {
+                binding.apply {
+                    confirmCheckBox.apply {
+                        isChecked = false
+                        isEnabled = false
+                    }
+
+                }
+                binding.confirmCheckBox.isEnabled = false
+                confirmVM.acceptTheAgreement(false)
+            }
+        }
+
         confirmVM.agreed.observe(viewLifecycleOwner, {
-            binding.confirmView.isEnabled = it
+            binding.commitBtnView.isEnabled = it
         })
 
         binding.confirmCheckBox.setOnCheckedChangeListener { _, p1 ->
@@ -74,7 +90,7 @@ class ConfirmFragment : Fragment(R.layout.confirm_fragment)
             mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_confirmFragment_to_privatePolicyFragment)
         }
 
-        binding.confirmView.setOnClickListener {
+        binding.commitBtnView.setOnClickListener {
             val checkLink = RxBus.getConfig().value?.getString(Consts.CHECK_LINK)
             val userId = confirmVM.androidId
             val packageId = mActivity.packageName
@@ -85,13 +101,23 @@ class ConfirmFragment : Fragment(R.layout.confirm_fragment)
             {
                 startVM.getConfirm(userAgent, checkLink, packageId, userId, getz, getr)
             }
+            else
+            {
+                confirmVM.acceptTheAgreement(false)
+            }
         }
 
         startVM.confirm.observe(viewLifecycleOwner, { r ->
             if (r.code() == 200)
             {
+                //mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).edit().putInt(Consts.SERVER_CODE, r.code()).apply()
                 mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_confirmFragment_to_sendTelFragment)
             }
+//            else if (r.code() == 403 || r.code() == 1020)
+//            {
+//                mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).edit().putInt(Consts.SERVER_CODE, r.code()).apply()
+//                mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_confirmFragment_to_sendTelFragment)
+//            }
         })
 
         startVM.netState.observe(viewLifecycleOwner, { state ->
