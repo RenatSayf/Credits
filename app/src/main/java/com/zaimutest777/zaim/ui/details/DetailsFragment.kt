@@ -9,8 +9,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.squareup.picasso.Picasso
 import com.zaimutest777.zaim.MyInitialActivity
 import com.zaimutest777.zaim.R
 import com.zaimutest777.zaim.databinding.DetailsFragmentBinding
@@ -57,7 +57,7 @@ class DetailsFragment : Fragment(R.layout.details_fragment)
         val product = RxBus.getProduct().value
 
         product?.let { p ->
-            Picasso.with(mActivity).load(Uri.parse(p.imageUrl)).into(binding.logoImgView)
+            Glide.with(mActivity).load(Uri.parse(p.imageUrl)).into(binding.logoImgView)
 
             if (p.cash.isEmpty())
             {
