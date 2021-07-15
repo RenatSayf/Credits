@@ -7,6 +7,6 @@ object Consts
     const val CARDS_LINCK = "cards_link"
     const val PRIVATE_POLICY = "privatepolicy"
     const val APP_PREF = "app_pref"
-    //const val USER_CONFIRM = "user_confirm"
+    const val CONFIRM_CODE = "confirm_code"
     const val SERVER_CODE = "server_code"
 }

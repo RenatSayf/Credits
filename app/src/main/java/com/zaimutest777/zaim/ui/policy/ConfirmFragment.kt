@@ -64,7 +64,9 @@ class ConfirmFragment : Fragment(R.layout.confirm_fragment)
         confirmVM = ViewModelProvider(this)[ConfirmViewModel::class.java]
 
         mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).getInt(Consts.SERVER_CODE, 0).apply {
-            if (this == 403)
+            var checkLink = RxBus.getConfig().value?.getString(Consts.CHECK_LINK)
+            //checkLink = ""  // TODO checkLink отсутствует (перед релизом закоментировать)
+            if (this == 403 || checkLink.isNullOrEmpty())
             {
                 binding.apply {
                     confirmCheckBox.apply {
@@ -108,16 +110,17 @@ class ConfirmFragment : Fragment(R.layout.confirm_fragment)
         }
 
         startVM.confirm.observe(viewLifecycleOwner, { r ->
-            if (r.code() == 200)
+            var code = r.code()
+            //code = 403 //TODO сервер код 403 (перед релизом закоментировать)
+            if (code == 200)
             {
-                //mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).edit().putInt(Consts.SERVER_CODE, r.code()).apply()
-                mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_confirmFragment_to_sendTelFragment)
+                mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).edit().putInt(Consts.SERVER_CODE, 200).apply()
             }
-//            else if (r.code() == 403 || r.code() == 1020)
-//            {
-//                mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).edit().putInt(Consts.SERVER_CODE, r.code()).apply()
-//                mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_confirmFragment_to_sendTelFragment)
-//            }
+            else if (code == 403 || code == 1020)
+            {
+                mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).edit().putInt(Consts.SERVER_CODE, 403).apply()
+            }
+            mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_confirmFragment_to_sendTelFragment)
         })
 
         startVM.netState.observe(viewLifecycleOwner, { state ->

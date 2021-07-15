@@ -46,12 +46,9 @@ class SplashFragment : Fragment(R.layout.splash_fragment)
             frc?.let {
                 RxBus.sendConfig(it)
                 val checkLink = frc.getString("check_link")
-                if (checkLink.isNotEmpty())
-                {
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        delay(500)
-                        (activity as MyInitialActivity).findNavController(R.id.nav_host_fragment).navigate(R.id.action_splashFragment_to_privatePolicyFragment)
-                    }
+                viewLifecycleOwner.lifecycleScope.launch {
+                    delay(500)
+                    (activity as MyInitialActivity).findNavController(R.id.nav_host_fragment).navigate(R.id.action_splashFragment_to_privatePolicyFragment)
                 }
             }
         })

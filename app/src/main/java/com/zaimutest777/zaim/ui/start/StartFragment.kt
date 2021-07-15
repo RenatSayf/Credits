@@ -60,11 +60,12 @@ class StartFragment : Fragment(R.layout.start_fragment)
         confirmVM = ViewModelProvider(this)[ConfirmViewModel::class.java]
 
         val serverCode = mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).getInt(Consts.SERVER_CODE, 0)
-        when (serverCode)
+        val confirmCode = mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).getInt(Consts.CONFIRM_CODE, -1)
+        when
         {
-            0 -> mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_startFragment_to_confirmFragment)
-            200 -> mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_startFragment_to_loansListFragment)
-            403 -> mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_startFragment_to_confirmFragment)
+            serverCode == 0 -> mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_startFragment_to_confirmFragment)
+            serverCode == 200 && confirmCode > 0 -> mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_startFragment_to_loansListFragment)
+            serverCode == 403 || confirmCode < 0 -> mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_startFragment_to_confirmFragment)
         }
 
 //        RxBus.getConfig().value?.let { frc ->

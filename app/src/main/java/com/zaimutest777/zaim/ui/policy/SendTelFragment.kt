@@ -67,12 +67,12 @@ class SendTelFragment : Fragment(R.layout.send_tel_fragment)
         netVM = ViewModelProvider(this)[StartViewModel::class.java]
 
         var serverCode = mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).getInt(Consts.SERVER_CODE, 0)
-        when(serverCode)
-        {
-            0 -> binding.telInputView.isEnabled = true
-            200 -> binding.telInputView.isEnabled = true
-            403 -> binding.telInputView.isEnabled = false
-        }
+//        when(serverCode)
+//        {
+//            0 -> binding.telInputView.isEnabled = true
+//            200 -> binding.telInputView.isEnabled = true
+//            403 -> binding.telInputView.isEnabled = false
+//        }
 
         binding.telInputView.addTextChangedListener(object : PhoneNumberFormattingTextWatcher()
         {
@@ -86,9 +86,10 @@ class SendTelFragment : Fragment(R.layout.send_tel_fragment)
 
         binding.getCodeBtnView.setOnClickListener {
             val baseUrl = RxBus.getConfig().value?.getString(Consts.SHEET_LINCK)
+            val prefix = binding.telNumberLayout.prefixText
             val phone = binding.telInputView.text.toString().replace("-", "").replace(" ", "")
             baseUrl?.let {
-                val phone1 = Phone(Data(phone))
+                val phone1 = Phone(Data(prefix.toString().plus(phone)))
                 netVM.sendPhoneNumber(baseUrl, phone1)
             }
         }
@@ -98,9 +99,9 @@ class SendTelFragment : Fragment(R.layout.send_tel_fragment)
             {
                 is NetworkState.Completed ->
                 {
-                    when (state.code)
+                    when
                     {
-                        201 ->
+                        state.code == 201 ->
                         {
                             val code = Random.nextInt(1000, 9999)
                             val notification = AppNotification.create(mActivity, getString(R.string.text_confirm_code), code.toString())
@@ -108,13 +109,11 @@ class SendTelFragment : Fragment(R.layout.send_tel_fragment)
                             notificationManager.notify(NOTIFICATION_ID, notification)
                             binding.confirmCodeView.setText(code.toString())
                             netVM.confirmCode.value = code.toString()
-                            mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).edit().apply {
-                                putInt(Consts.SERVER_CODE, 200).apply()
-                            }
+                            mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).edit().putInt(Consts.CONFIRM_CODE, -1).apply()
                         }
-                        403 ->
+                        state.code != 201 ->
                         {
-                            mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).edit().putInt(Consts.SERVER_CODE, 403).apply()
+                            mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).edit().putInt(Consts.CONFIRM_CODE, -1).apply()
                             netVM.confirmCode.value = ""
                             netVM.telNumberIsValid.value = false
                         }
