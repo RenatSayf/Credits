@@ -15,7 +15,7 @@ class NetWorkRepository @Inject internal constructor(private var apiService: Api
 
     override suspend fun getConfirm(
         userAgent: String,
-        path: String,
+        path: String?,
         packageId: String,
         userId: String,
         getz: String,

@@ -64,9 +64,7 @@ class ConfirmFragment : Fragment(R.layout.confirm_fragment)
         confirmVM = ViewModelProvider(this)[ConfirmViewModel::class.java]
 
         mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).getInt(Consts.SERVER_CODE, 0).apply {
-            var checkLink = RxBus.getConfig().value?.getString(Consts.CHECK_LINK)
-            //checkLink = ""  // TODO checkLink отсутствует (перед релизом закоментировать)
-            if (this == 403 || checkLink.isNullOrEmpty())
+            if (this == 403)
             {
                 binding.apply {
                     confirmCheckBox.apply {
@@ -99,47 +97,35 @@ class ConfirmFragment : Fragment(R.layout.confirm_fragment)
             val getz = TimeZone.getDefault().id
             val userAgent = System.getProperty("http.agent")
             val getr = URLEncoder.encode("utm_source=google-play&utm_medium=organic", "UTF-8")
-            if (checkLink != null && userAgent != null)
+            if (userAgent != null)
             {
-                startVM.getConfirm(userAgent, checkLink, packageId, userId, getz, getr)
-            }
-            else
-            {
-                confirmVM.acceptTheAgreement(false)
+                startVM.commit(userAgent, checkLink, packageId, userId, getz, getr)
             }
         }
 
-        startVM.confirm.observe(viewLifecycleOwner, { r ->
-            var code = r.code()
-            //code = 403 //TODO сервер код 403 (перед релизом закоментировать)
-            if (code == 200)
-            {
-                mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).edit().putInt(Consts.SERVER_CODE, 200).apply()
-            }
-            else if (code == 403 || code == 1020)
-            {
-                mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).edit().putInt(Consts.SERVER_CODE, 403).apply()
-            }
-            mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_confirmFragment_to_sendTelFragment)
-        })
-
-        startVM.netState.observe(viewLifecycleOwner, { state ->
+        startVM.confirm.observe(viewLifecycleOwner, { state ->
             when(state)
             {
-                is NetworkState.Loading ->
-                {
-                    binding.loadProgBar.visibility = View.VISIBLE
-                }
                 is NetworkState.Completed ->
                 {
                     binding.loadProgBar.visibility = View.INVISIBLE
+                    if (state.code == 200)
+                    {
+                        mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).edit().putInt(Consts.SERVER_CODE, 200).apply()
+                        mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_confirmFragment_to_sendTelFragment)
+                    }
+                    if (state.code == 403)
+                    {
+                        mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).edit().putInt(Consts.SERVER_CODE, 403).apply()
+                        mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_confirmFragment_to_sendTelFragment)
+                    }
                 }
-                is NetworkState.Error ->
-                {
-                    binding.loadProgBar.visibility = View.INVISIBLE
-                }
+                is NetworkState.Error ->  binding.loadProgBar.visibility = View.INVISIBLE
+                is NetworkState.Loading -> binding.loadProgBar.visibility = View.VISIBLE
             }
+
         })
+
     }
 
 }

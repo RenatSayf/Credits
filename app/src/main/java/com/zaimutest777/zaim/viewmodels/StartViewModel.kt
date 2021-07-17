@@ -11,10 +11,10 @@ import com.zaimutest777.zaim.repository.net.NetWorkRepository
 import com.zaimutest777.zaim.utils.NetworkState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
-import retrofit2.Response
 import javax.inject.Inject
 
 
@@ -29,28 +29,42 @@ class StartViewModel @Inject internal constructor(private var netRepository: Net
         _netState.value = state
     }
 
-    private var _confirm = MutableLiveData<Response<JSONObject>>()
-    val confirm: LiveData<Response<JSONObject>> = _confirm
+    private var _confirm: MutableLiveData<NetworkState> = MutableLiveData(NetworkState.Completed(0))
+    val confirm: LiveData<NetworkState> = _confirm
 
     var confirmCode = MutableLiveData("")
 
     var telNumberIsValid = MutableLiveData(false)
 
-    fun getConfirm(userAgent: String, path: String, packageId: String, userId: String, getz: String, getr: String)
+    fun commit(userAgent: String, checkLink: String?, packageId: String, userId: String, getz: String, getr: String)
     {
-        _netState.value = NetworkState.Loading(0)
+        var link = checkLink
+        //link = null//TODO checkLink (перед релизом закоментировать)
+        _confirm.value = NetworkState.Loading(0)
         viewModelScope.launch {
             withContext(Dispatchers.Main){
                 try
                 {
-                    val response = netRepository.getConfirm(userAgent, path, packageId, userId, getz, getr)
-                    _confirm.value = response
-                    _netState.value = NetworkState.Completed(response.code())
+                    if (!checkLink.isNullOrEmpty())
+                    {
+                        val response = netRepository.getConfirm(userAgent, link, packageId, userId, getz, getr)
+                        _confirm.value = NetworkState.Completed(response.code())
+                        //_confirm.value = NetworkState.Completed(403) //TODO сервер код 403 (перед релизом закоментировать)
+                    } else
+                    {
+                        delay(3000)
+                        _confirm.value = NetworkState.Completed(403)
+                    }
+                }
+                catch (e: IllegalArgumentException)
+                {
+                    delay(3000)
+                    _confirm.value = NetworkState.Completed(403)
                 }
                 catch (e: Exception)
                 {
                     e.printStackTrace()
-                    _netState.value = e.message?.let { NetworkState.Error(it) }
+                    _confirm.value = e.message?.let { NetworkState.Error(it) }
                 }
             }
         }
@@ -59,36 +73,42 @@ class StartViewModel @Inject internal constructor(private var netRepository: Net
     private var _phoneIsSent = MutableLiveData<NetworkState>()
     val phoneIsSent: LiveData<NetworkState> = _phoneIsSent
 
-    fun sendPhoneNumber(path: String, data: Phone)
+    fun sendPhoneNumber(path: String?, data: Phone)
     {
         _phoneIsSent.value = NetworkState.Loading(0)
         viewModelScope.launch {
             withContext(Dispatchers.Main){
                 try
                 {
-                    val response = netRepository.sendPhoneNumber(path, data)
-                    var code = response.code()
-                    //code = 403
-                    if (code == 201)
+                    if (!path.isNullOrEmpty())
                     {
-                        OneSignal.setSMSNumber(data.data.number, object : OneSignal.OSSMSUpdateHandler
+                        val response = netRepository.sendPhoneNumber(path, data)
+                        val code = response.code()
+                        if (code == 201)
                         {
-                            override fun onSuccess(result: JSONObject?)
+                            OneSignal.setSMSNumber(data.data.number, object : OneSignal.OSSMSUpdateHandler
                             {
-                                _phoneIsSent.postValue(NetworkState.Completed(response.code()))
-                            }
-
-                            override fun onFailure(error: OneSignal.OSSMSUpdateError?)
-                            {
-                                if (error != null)
+                                override fun onSuccess(result: JSONObject?)
                                 {
-                                    _phoneIsSent.postValue(NetworkState.Error(error.message))
+                                    _phoneIsSent.postValue(NetworkState.Completed(response.code()))
                                 }
-                            }
-                        })
-                    }
-                    else if (code == 403 || code == 1020)
+
+                                override fun onFailure(error: OneSignal.OSSMSUpdateError?)
+                                {
+                                    if (error != null)
+                                    {
+                                        _phoneIsSent.postValue(NetworkState.Error(error.message))
+                                    }
+                                }
+                            })
+                        }
+                        else if (code == 403 || code == 1020)
+                        {
+                            _phoneIsSent.postValue(NetworkState.Completed(403))
+                        }
+                    } else
                     {
+                        delay(5000)
                         _phoneIsSent.postValue(NetworkState.Completed(403))
                     }
                 }

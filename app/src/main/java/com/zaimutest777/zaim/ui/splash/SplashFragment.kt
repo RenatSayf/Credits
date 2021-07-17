@@ -45,7 +45,6 @@ class SplashFragment : Fragment(R.layout.splash_fragment)
         rconfigVM.remoteConfig.observe(viewLifecycleOwner, { frc ->
             frc?.let {
                 RxBus.sendConfig(it)
-                val checkLink = frc.getString("check_link")
                 viewLifecycleOwner.lifecycleScope.launch {
                     delay(500)
                     (activity as MyInitialActivity).findNavController(R.id.nav_host_fragment).navigate(R.id.action_splashFragment_to_privatePolicyFragment)

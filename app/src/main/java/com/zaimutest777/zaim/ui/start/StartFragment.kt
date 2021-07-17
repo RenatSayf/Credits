@@ -16,7 +16,6 @@ import com.zaimutest777.zaim.utils.Consts
 import com.zaimutest777.zaim.viewmodels.ConfirmViewModel
 import com.zaimutest777.zaim.viewmodels.StartViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 
 @AndroidEntryPoint
@@ -68,59 +67,6 @@ class StartFragment : Fragment(R.layout.start_fragment)
             serverCode == 403 || confirmCode < 0 -> mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_startFragment_to_confirmFragment)
         }
 
-//        RxBus.getConfig().value?.let { frc ->
-//            val checkLink = frc.getString("check_link")
-//            val userId = confirmVM.androidId
-//            val packageId = mActivity.packageName
-//            val getz = TimeZone.getDefault().id
-//            val getr = URLEncoder.encode("utm_source=google-play&utm_medium=organic", "UTF-8")
-//            val userAgent = System.getProperty("http.agent")
-//            if (checkLink.isNotEmpty())
-//            {
-//                userAgent?.let { agent ->
-//                    startVM.getConfirm(agent, checkLink, packageId, userId, getz, getr)
-//                }
-//            }
-//        }
-//
-//        startVM.confirm.observe(viewLifecycleOwner, { r ->
-//            when(r.code())
-//            {
-//                200 ->
-//                {
-//                    val userConfirm = mActivity.getSharedPreferences(Consts.APP_PREF, Context.MODE_PRIVATE).getBoolean(Consts.USER_CONFIRM, false)
-//                    if (userConfirm)
-//                    {
-//                        mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_startFragment_to_loansListFragment)
-//                    } else
-//                    {
-//                        mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_startFragment_to_confirmFragment)
-//                    }
-//                }
-//                403 ->
-//                {
-//                    mActivity.findNavController(R.id.nav_host_fragment).navigate(R.id.action_startFragment_to_confirmFragment)
-//                }
-//            }
-//        })
-//
-//        startVM.netState.observe(viewLifecycleOwner, { state ->
-//            when(state)
-//            {
-//                is NetworkState.Loading ->
-//                {
-//                    binding.loadProgBar.visibility = View.VISIBLE
-//                }
-//                is NetworkState.Completed ->
-//                {
-//                    binding.loadProgBar.visibility = View.INVISIBLE
-//                }
-//                is NetworkState.Error ->
-//                {
-//                    binding.loadProgBar.visibility = View.INVISIBLE
-//                }
-//            }
-//        })
 
     }
 

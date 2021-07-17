@@ -18,7 +18,7 @@ interface ApiService
     //@Headers("User-Agent: getr=utm_source=google-play&utm_medium=organic")
     suspend fun getConfirm(
         @Header("User-Agent") userAgent: String,
-        @Path(value = "url", encoded = true) path: String,
+        @Path(value = "url", encoded = true) path: String?,
         @Query("packageid", encoded = true) packageId: String,
         @Query("usserid", encoded = true) userId: String,
         @Query("getz", encoded = true) getz: String,
