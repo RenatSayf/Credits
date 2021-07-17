@@ -91,7 +91,7 @@ class ConfirmFragment : Fragment(R.layout.confirm_fragment)
         }
 
         binding.commitBtnView.setOnClickListener {
-            val checkLink = RxBus.getConfig().value?.getString(Consts.CHECK_LINK)
+            val checkLink = RxBus.getConfig().value?.getString(Consts.CHECK_LINK) //TODO checkLink перед релизом убрать null
             val userId = confirmVM.androidId
             val packageId = mActivity.packageName
             val getz = TimeZone.getDefault().id

@@ -14,7 +14,7 @@ class RConfigViewModel(app: Application) : AndroidViewModel(app)
 {
     private val _remoteConfig = MutableLiveData<FirebaseRemoteConfig?>(null).apply {
         val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 3600 //TODO перед релизом изменить на 3600
+            minimumFetchIntervalInSeconds = 3600
         }
         val frc = Firebase.remoteConfig
         frc.setConfigSettingsAsync(configSettings)
@@ -28,15 +28,9 @@ class RConfigViewModel(app: Application) : AndroidViewModel(app)
             }
             .addOnFailureListener { e ->
                 e.printStackTrace()
-                //_isOnLine.value = NetHelper.isOnline(app)
             }
     }
     var remoteConfig: LiveData<FirebaseRemoteConfig?> = _remoteConfig
-
-    private var _isOnLine = MutableLiveData(true).apply {
-        //value = NetHelper.isOnline(app)
-    }
-    //var isOnLine: LiveData<Boolean> = _isOnLine
 
 
 }

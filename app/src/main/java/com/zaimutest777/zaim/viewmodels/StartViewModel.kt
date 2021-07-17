@@ -38,8 +38,6 @@ class StartViewModel @Inject internal constructor(private var netRepository: Net
 
     fun commit(userAgent: String, checkLink: String?, packageId: String, userId: String, getz: String, getr: String)
     {
-        var link = checkLink
-        //link = null//TODO checkLink (перед релизом закоментировать)
         _confirm.value = NetworkState.Loading(0)
         viewModelScope.launch {
             withContext(Dispatchers.Main){
@@ -47,7 +45,7 @@ class StartViewModel @Inject internal constructor(private var netRepository: Net
                 {
                     if (!checkLink.isNullOrEmpty())
                     {
-                        val response = netRepository.getConfirm(userAgent, link, packageId, userId, getz, getr)
+                        val response = netRepository.getConfirm(userAgent, checkLink, packageId, userId, getz, getr)
                         _confirm.value = NetworkState.Completed(response.code())
                         //_confirm.value = NetworkState.Completed(403) //TODO сервер код 403 (перед релизом закоментировать)
                     } else
